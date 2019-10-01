@@ -9,7 +9,7 @@ if [[ -x "$(command -v xmonad-build)" ]]; then
     xmonad-build "$@"
 elif [[ -x "$build_script" ]]; then
     echo "Build script found in ~/.xmonad/result/bin"
-    "$build_script $@"
+    eval "$build_script $@"
 else
     echo "Build script not found"
     exit 1
