@@ -24,9 +24,9 @@ import qualified XMonad.My.Workspaces        as My.Workspaces
 main = do
   let
 #ifdef DUAL_SCREEN_HORIZONTAL
-    cfg = My.Cfg.workHorizontal
+    cfg = My.Cfg.dualScreenHorizontal
 #else
-    cfg = My.Cfg.thinkpad13
+    cfg = My.Cfg.singleScreen
 #endif
     wsp = My.Workspaces.getWorkspaces cfg
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig

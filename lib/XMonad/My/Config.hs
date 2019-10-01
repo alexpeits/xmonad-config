@@ -24,8 +24,8 @@ data Resolution
       , h :: Rational
       }
 
-thinkpad13 :: Config
-thinkpad13
+singleScreen :: Config
+singleScreen
   = Config
       { screens = SingleScreen res
       , panelHeight = 25
@@ -38,8 +38,8 @@ thinkpad13
   where
     res = Resolution 1920 1080
 
-workHorizontal :: Config
-workHorizontal
+dualScreenHorizontal :: Config
+dualScreenHorizontal
   = Config
       { screens = DualScreenHorizontal right left
       , panelHeight = 28
