@@ -7,7 +7,7 @@ import XMonad.Util.Ungrab (unGrab)
 
 selectScreenshot = "gnome-screenshot -a"
 windowScreenshot = "scrot ~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png -s"
-screenshot = "gnome-screenshot"
+screenshot       = "gnome-screenshot"
 
 getScreenshot :: X ()
 getScreenshot = do

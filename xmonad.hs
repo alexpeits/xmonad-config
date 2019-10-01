@@ -30,17 +30,17 @@ main = do
 #endif
     wsp = My.Workspaces.getWorkspaces cfg
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig
-    { terminal = My.Cfg.terminal cfg
-    , focusFollowsMouse = False
-    , clickJustFocuses = False
-    , borderWidth = 1
-    , modMask = mod4Mask
-    , workspaces = wsp
-    , normalBorderColor = "#5b5b5b"
+    { terminal           = My.Cfg.terminal cfg
+    , focusFollowsMouse  = False
+    , clickJustFocuses   = False
+    , borderWidth        = 1
+    , modMask            = mod4Mask
+    , workspaces         = wsp
+    , normalBorderColor  = "#5b5b5b"
     , focusedBorderColor = "#db7272"
-    , keys = My.Keys.getKeys cfg
-    , manageHook =
-        manageDocks
+    , keys               = My.Keys.getKeys cfg
+    , manageHook
+        = manageDocks
         <+> My.Windows.getWindows cfg wsp
         <+> composeOne
           [ isDialog -?> doCenterFloat
@@ -49,13 +49,11 @@ main = do
           , pure True -?> insertPosition Below Newer
           ]
         <+> namedScratchpadManageHook My.Scratchpad.scratchpads
-    , startupHook = do
-        spawn "xfce4-panel --restart"
-        -- setWMName "LG3D"
+    , startupHook        = spawn "xfce4-panel --restart"
 #ifdef DUAL_SCREEN_HORIZONTAL
-    , layoutHook = smartBorders My.Layouts.dualScreenHorizontal
+    , layoutHook         = smartBorders My.Layouts.dualScreenHorizontal
 #else
-    , layoutHook = smartBorders My.Layouts.singleScreen
+    , layoutHook         = smartBorders My.Layouts.singleScreen
 #endif
-    , handleEventHook = handleEventHook def <+> docksEventHook
+    , handleEventHook    = handleEventHook def <+> docksEventHook
     }

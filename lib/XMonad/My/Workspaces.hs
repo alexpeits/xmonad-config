@@ -7,6 +7,7 @@ import           XMonad.Layout.IndependentScreens (withScreens)
 
 import qualified XMonad.My.Config                 as Cfg
 
+
 singleScreen :: [String]
 singleScreen
   = [ "1:main"

@@ -20,10 +20,8 @@ import           XMonad.Hooks.ManageDocks         (avoidStruts)
 
 
 (singleScreen, dualScreenHorizontal)
-  = ( avoidStruts $ Maximize.maximizeWithPadding 40
-        $ singleScreenLayout
-    , avoidStruts $ Maximize.maximizeWithPadding 40
-        $ dualScreenHorizontalLayout
+  = ( avoidStruts $ Maximize.maximizeWithPadding 40 singleScreenLayout
+    , avoidStruts $ Maximize.maximizeWithPadding 40 dualScreenHorizontalLayout
     )
   where
     singleScreenLayout

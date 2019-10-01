@@ -2,7 +2,6 @@
 module XMonad.My.Keys where
 
 import qualified Data.Map                         as M
-import           Graphics.X11.ExtraTypes.XF86
 
 import qualified XMonad                           as X
 import           XMonad                           hiding (workspaces, terminal, keys)
@@ -20,6 +19,8 @@ import qualified XMonad.StackSet                  as W
 import qualified XMonad.My.Config                 as Cfg
 import qualified XMonad.My.Scratchpad             as Scratch
 import qualified XMonad.My.Util                   as Util
+
+import           Graphics.X11.ExtraTypes.XF86
 
 
 customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
@@ -68,7 +69,7 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- reflect vertically
   , ((modMask .|. shiftMask, xK_v), sendMessage $ MultiToggle.Toggle Reflect.REFLECTY)
 
-  -- mycle monitors
+  -- cycle monitors
   , ((modMask, xK_o), Cycle.nextScreen)
   , ((modMask .|. shiftMask, xK_o), Cycle.shiftNextScreen)
 

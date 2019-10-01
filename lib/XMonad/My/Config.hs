@@ -5,12 +5,12 @@ import Data.Ratio (Rational)
 
 data Config
   = Config
-      { screens :: ScreenConfig
-      , panelHeight :: Int
-      , panelScreen :: Resolution
-      , terminal :: String
-      , launcher :: String
-      , screensaver :: String
+      { screens      :: ScreenConfig
+      , panelHeight  :: Int
+      , panelScreen  :: Resolution
+      , terminal     :: String
+      , launcher     :: String
+      , screensaver  :: String
       , hasMediaKeys :: Bool
       }
 
@@ -27,12 +27,12 @@ data Resolution
 singleScreen :: Config
 singleScreen
   = Config
-      { screens = SingleScreen res
-      , panelHeight = 25
-      , panelScreen = res
-      , terminal = "gnome-terminal"
-      , launcher = rofiLauncher
-      , screensaver = "i3lock-fancy -p"
+      { screens      = SingleScreen res
+      , panelHeight  = 25
+      , panelScreen  = res
+      , terminal     = "gnome-terminal"
+      , launcher     = rofiLauncher
+      , screensaver  = "i3lock-fancy -p"
       , hasMediaKeys = True
       }
   where
@@ -41,12 +41,12 @@ singleScreen
 dualScreenHorizontal :: Config
 dualScreenHorizontal
   = Config
-      { screens = DualScreenHorizontal right left
-      , panelHeight = 28
-      , panelScreen = right
-      , terminal = "gnome-terminal"
-      , launcher = rofiLauncher
-      , screensaver = "xscreensaver-command -lock"
+      { screens      = DualScreenHorizontal right left
+      , panelHeight  = 28
+      , panelScreen  = right
+      , terminal     = "gnome-terminal"
+      , launcher     = rofiLauncher
+      , screensaver  = "xscreensaver-command -lock"
       , hasMediaKeys = False
       }
   where
