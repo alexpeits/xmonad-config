@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env nix-shell
+#!nix-shell ./lib/default.nix -i bash
 
 base="$HOME/.xmonad"
 extra_flags_filename="extra-ghc-flags"
@@ -14,4 +15,4 @@ else
 fi
 
 echo "Recompiling xmonad with flags: $extra_flags"
-ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -v0 -DDUAL_SCREEN_HORIZONTAL "$extra_flags" -o "$1"
+ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -v0 "$extra_flags" -o "$1"
