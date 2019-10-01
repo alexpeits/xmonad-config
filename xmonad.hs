@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-#define JOB
 import           XMonad
 
 import           XMonad.Config.Xfce          (xfceConfig)
@@ -24,7 +23,7 @@ import qualified XMonad.My.Workspaces        as My.Workspaces
 
 main = do
   let
-#ifdef JOB
+#ifdef DUAL_SCREEN_HORIZONTAL
     cfg = My.Cfg.workHorizontal
 #else
     cfg = My.Cfg.thinkpad13
@@ -53,7 +52,7 @@ main = do
     , startupHook = do
         spawn "xfce4-panel --restart"
         -- setWMName "LG3D"
-#ifdef JOB
+#ifdef DUAL_SCREEN_HORIZONTAL
     , layoutHook = smartBorders My.Layouts.dualScreenHorizontal
 #else
     , layoutHook = smartBorders My.Layouts.singleScreen

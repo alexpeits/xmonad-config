@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+base="$HOME/.xmonad"
+extra_flags_filename="extra-ghc-flags"
+
+hostname="$(hostname)"
+host_dir="$base/hosts/$hostname"
+extra_flags_file="$host_dir/$extra_flags_filename"
+
+if [ -f "$extra_flags_file" ]; then
+    extra_flags="$(cat "$extra_flags_file" | tr '\n' ' ')"
+else
+    extra_flags=""
+fi
+
+echo "Recompiling xmonad with flags: $extra_flags"
+ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -v0 -DDUAL_SCREEN_HORIZONTAL "$extra_flags" -o "$1"
