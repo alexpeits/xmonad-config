@@ -10,9 +10,10 @@ extra_flags_file="$host_dir/$extra_flags_filename"
 
 if [ -f "$extra_flags_file" ]; then
     extra_flags="$(cat "$extra_flags_file" | tr '\n' ' ')"
+    echo "Recompiling xmonad with flags: $extra_flags"
 else
     extra_flags=""
+    echo "Recompiling xmonad (no flags)"
 fi
 
-echo "Recompiling xmonad with flags: $extra_flags"
-ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -v0 "$extra_flags" -o "$1"
+ghc --make xmonad.hs -i. -ilib -fforce-recomp -main-is main -v0 -o "$1" $extra_flags
