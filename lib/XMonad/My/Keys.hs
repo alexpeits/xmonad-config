@@ -7,6 +7,7 @@ import qualified XMonad                           as X
 import           XMonad                           hiding (workspaces, terminal, keys)
 
 import qualified XMonad.Actions.CycleWS           as Cycle
+import qualified XMonad.Actions.GridSelect        as GS
 import           XMonad.Actions.WindowBringer     (gotoMenuArgs')
 import           XMonad.Hooks.ManageDocks         (ToggleStruts(..))
 import qualified XMonad.Layout.IndependentScreens as IndS
@@ -23,6 +24,7 @@ import qualified XMonad.My.Util                   as Util
 import           Graphics.X11.ExtraTypes.XF86
 
 
+
 customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- terminal
   [ ((modMask .|. shiftMask, xK_Return), spawn $ X.terminal conf)
@@ -37,6 +39,8 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask, xK_p), spawn launcher)
   -- window select
   , ((modMask .|. shiftMask, xK_p) , gotoMenuArgs' "rofi" rofiGoToWinArgs)
+  -- grid select
+  , ((modMask .|. shiftMask, xK_g), GS.goToSelected def)
   -- screenshots
   , ((modMask .|. controlMask .|. shiftMask, xK_p), Util.getScreenshot)
 
