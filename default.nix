@@ -18,6 +18,7 @@ let
     buildInputs = [ ghcWithPackages haskellPackages.ghcid pkgs.entr ];
   };
 
+  # testing that without -fforce-recomp for now
   script = pkgs.writeScriptBin "xmonad-build" ''
     #!${pkgs.bash}/bin/bash
     base="$HOME/.xmonad"
@@ -36,7 +37,7 @@ let
     fi
 
     ${ghcWithPackages}/bin/ghc \
-       --make xmonad.hs -i. -ilib -fforce-recomp \
+       --make xmonad.hs -i. -ilib \
        -main-is main -v0 -o "$1" $extra_flags
   '';
 
