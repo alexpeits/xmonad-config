@@ -2,3 +2,4 @@ xmonad-*-linux
 *.errors
 *.hi
 *.o
+result

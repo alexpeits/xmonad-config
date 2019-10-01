@@ -1,19 +1,17 @@
-#!/usr/bin/env nix-shell
-#!nix-shell ./lib/default.nix -i bash
+#!/usr/bin/env bash
+# the xmonad-build script is required and can be built by doing:
+# nix-build -A script
 
-base="$HOME/.xmonad"
-extra_flags_filename="extra-ghc-flags"
+build_script="$HOME/.xmonad/result/bin/xmonad-build"
 
-hostname="$(hostname)"
-host_dir="$base/hosts/$hostname"
-extra_flags_file="$host_dir/$extra_flags_filename"
-
-if [ -f "$extra_flags_file" ]; then
-    extra_flags="$(cat "$extra_flags_file" | tr '\n' ' ')"
-    echo "Recompiling xmonad with flags: $extra_flags"
+if [[ -x "$(command -v xmonad-build)" ]]; then
+    echo "Build script found in path"
+    xmonad-build "$@"
+elif [[ -x "$build_script" ]]; then
+    echo "Build script found in ~/.xmonad/result/bin"
+    "$build_script $@"
 else
-    extra_flags=""
-    echo "Recompiling xmonad (no flags)"
+    echo "Build script not found"
+    exit 1
 fi
 
-ghc --make xmonad.hs -i. -ilib -fforce-recomp -main-is main -v0 -o "$1" $extra_flags
