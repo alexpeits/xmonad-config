@@ -75,8 +75,8 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   , ((modMask .|. shiftMask, xK_q), spawn "xfce4-session-logout")
 
-  , ((modMask .|. shiftMask, xK_j), windows W.swapDown >> windows W.focusUp)
-  , ((modMask .|. shiftMask, xK_k), windows W.swapUp >> windows W.focusDown)
+  , ((modMask .|. controlMask .|. shiftMask, xK_j), windows W.swapDown >> windows W.focusUp)
+  , ((modMask .|. controlMask .|. shiftMask, xK_k), windows W.swapUp >> windows W.focusDown)
 
   ]
 
