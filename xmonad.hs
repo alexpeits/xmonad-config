@@ -23,10 +23,10 @@ import qualified XMonad.My.Workspaces        as My.Workspaces
 
 main = do
   let
-#ifdef DUAL_SCREEN_HORIZONTAL
-    cfg = My.Cfg.dualScreenHorizontal
+#ifdef WORK_HORIZONTAL
+    cfg = My.Cfg.workHorizontal
 #else
-    cfg = My.Cfg.singleScreen
+    cfg = My.Cfg.thinkpad13
 #endif
     wsp = My.Workspaces.getWorkspaces cfg
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig
@@ -50,7 +50,7 @@ main = do
           ]
         <+> namedScratchpadManageHook My.Scratchpad.scratchpads
     , startupHook        = spawn "xfce4-panel --restart"
-#ifdef DUAL_SCREEN_HORIZONTAL
+#ifdef WORK_HORIZONTAL
     , layoutHook         = smartBorders My.Layouts.dualScreenHorizontal
 #else
     , layoutHook         = smartBorders My.Layouts.singleScreen

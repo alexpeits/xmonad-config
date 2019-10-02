@@ -14,9 +14,25 @@ data Config
       , hasMediaKeys :: Bool
       }
 
+defaultConfig :: Config
+defaultConfig
+  = Config
+      { screens      = defaultScreenConfig
+      , panelHeight  = 25
+      , panelScreen  = defaultResolution
+      , terminal     = "gnome-terminal"
+      , launcher     = rofiLauncher
+      , screensaver  = "i3lock-fancy -p"
+      , hasMediaKeys = True
+      }
+
 data ScreenConfig
   = SingleScreen Resolution
   | DualScreenHorizontal Resolution Resolution
+
+defaultScreenConfig :: ScreenConfig
+defaultScreenConfig
+  = SingleScreen defaultResolution
 
 data Resolution
   = Resolution
@@ -24,28 +40,24 @@ data Resolution
       , h :: Rational
       }
 
-singleScreen :: Config
-singleScreen
-  = Config
-      { screens      = SingleScreen res
-      , panelHeight  = 25
-      , panelScreen  = res
-      , terminal     = "gnome-terminal"
-      , launcher     = rofiLauncher
-      , screensaver  = "i3lock-fancy -p"
-      , hasMediaKeys = True
+defaultResolution :: Resolution
+defaultResolution
+  = Resolution
+      { w = 1920
+      , h = 1080
       }
-  where
-    res = Resolution 1920 1080
 
-dualScreenHorizontal :: Config
-dualScreenHorizontal
-  = Config
+
+thinkpad13 :: Config
+thinkpad13
+  = defaultConfig
+
+workHorizontal :: Config
+workHorizontal
+  = defaultConfig
       { screens      = DualScreenHorizontal right left
       , panelHeight  = 28
       , panelScreen  = right
-      , terminal     = "gnome-terminal"
-      , launcher     = rofiLauncher
       , screensaver  = "xscreensaver-command -lock"
       , hasMediaKeys = False
       }
