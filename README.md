@@ -10,7 +10,7 @@
 1. Install the `xmonad` executable
 
 ```
-$ nix-env -i -A xmonad
+$ nix-env -i -f default.nix -A xmonad
 ```
 
 Alternatively:
@@ -26,7 +26,7 @@ some symlinks might disappear and the executable will stop working.
 2. Install the `xmonad-build` script
 
 ```
-$ nix-env -i -A script
+$ nix-env -i -f default.nix -A script
 ```
 
 Alternatively:
