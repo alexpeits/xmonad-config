@@ -109,6 +109,9 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
          , ((modMask, xK_F2), spawn "playerctl previous")
          , ((modMask, xK_F3), spawn "playerctl play-pause")
          , ((modMask, xK_F4), spawn "playerctl next")
+
+         , ((modMask, xK_F5), spawn "xbacklight -dec 2")
+         , ((modMask, xK_F6), spawn "xbacklight -inc 2")
          ]
 
     else [ ((modMask, xK_F2), spawn "amixer -D pulse set Master 5%-")
