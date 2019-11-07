@@ -28,6 +28,7 @@ import           Graphics.X11.ExtraTypes.XF86
 customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- terminal
   [ ((modMask .|. shiftMask, xK_Return), spawn $ X.terminal conf)
+  , ((modMask .|. controlMask .|. shiftMask, xK_Return), spawn "gnome-terminal --profile=Light")
 
   -- screen lock
   , ((modMask .|. controlMask, xK_l), spawn screensaver)
@@ -105,6 +106,9 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
     then [ ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
          , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 5%-")
          , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
+         -- laptop + bluetooth = disaster
+         , ((modMask .|. controlMask, xK_F2), spawn "amixer -q set Master 5%-")
+         , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Master 5%+")
          , ((0, xF86XK_AudioMicMute), spawn "amixer -q set Capture toggle")
          , ((modMask, xK_F2), spawn "playerctl previous")
          , ((modMask, xK_F3), spawn "playerctl play-pause")
