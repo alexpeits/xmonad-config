@@ -5,7 +5,9 @@ import qualified Data.Map                         as M
 
 import qualified XMonad                           as X
 import           XMonad                           hiding (workspaces, terminal, keys)
+import           XMonad.Operations                (windows)
 
+import qualified XMonad.Actions.CopyWindow        as CopyWindow
 import qualified XMonad.Actions.CycleWS           as Cycle
 import qualified XMonad.Actions.GridSelect        as GS
 import           XMonad.Actions.WindowBringer     (gotoMenuArgs')
@@ -24,6 +26,13 @@ import qualified XMonad.My.Util                   as Util
 import           Graphics.X11.ExtraTypes.XF86
 
 
+-- | Copy current window to all workspaces or delete all other copies
+copyToAllOrKillOther :: X ()
+copyToAllOrKillOther = do
+  inOtherWs <- CopyWindow.wsContainingCopies
+  if null inOtherWs
+    then windows CopyWindow.copyToAll
+    else CopyWindow.killAllOtherCopies
 
 customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- terminal
@@ -35,6 +44,9 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   -- maximize current window
   , ((modMask, xK_backslash), withFocused (sendMessage . Maximize.maximizeRestore))
+
+  -- copy current win to all ws or kill other copies
+  , ((modMask, xK_r), copyToAllOrKillOther)
 
   -- launcher
   , ((modMask, xK_p), spawn launcher)
