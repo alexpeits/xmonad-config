@@ -9,6 +9,7 @@ import qualified XMonad.Layout.Decoration         as Deco
 import qualified XMonad.Layout.Dwindle            as Dwindle
 import qualified XMonad.Layout.Maximize           as Maximize
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
+import           XMonad.Layout.MultiToggle        ((??))
 import           XMonad.Layout.Named              (named)
 import qualified XMonad.Layout.NoFrillsDecoration as NoFrills
 import qualified XMonad.Layout.Reflect            as Reflect
@@ -36,26 +37,29 @@ import           XMonad.Hooks.ManageDocks         (avoidStruts)
       ||| withTopBar stackTile
 
     tall
-      = withHorizontalToggle
+      = withToggle
         $ XL.Tall 1 (3/100) 0.5
 
     left
-      = XL.Tall 1 (3/100) 0.75
+      = withToggle
+        $ XL.Tall 1 (3/100) 0.75
 
     right
-      = withHorizontalToggle
+      = withToggle
         $ Reflect.reflectHoriz
         $ XL.Tall 1 (3/100) 0.75
 
     spiralRight
-      = withHorizontalToggle
+      = withToggle
         $ Dwindle.Dwindle Dwindle.L Dwindle.CCW 2.75 1.07
 
     focus
-      = XL.Mirror left
+      = withToggle
+        $ XL.Mirror left
 
     stackTile
-      = StackTile.StackTile 2 (3/100) 0.7
+      = withToggle
+        $ StackTile.StackTile 2 (3/100) 0.7
 
     tabbed
       = Tabbed.tabbed Deco.shrinkText tabTheme
@@ -81,6 +85,26 @@ import           XMonad.Hooks.ManageDocks         (avoidStruts)
                 , NoFrills.activeTextColor       = "#268bd2"
                 , NoFrills.decoHeight            = 10
                 }
+
+    withToggle
+      :: LayoutClass l a
+      => l a
+      -> MultiToggle.MultiToggle
+           (MultiToggle.HCons Reflect.REFLECTX
+             (MultiToggle.HCons Reflect.REFLECTY MultiToggle.EOT))
+           l a
+    withToggle
+      = MultiToggle.mkToggle
+          (Reflect.REFLECTX ?? Reflect.REFLECTY ?? MultiToggle.EOT)
+
+    withVerticalToggle
+      :: LayoutClass l a
+      => l a
+      -> MultiToggle.MultiToggle
+           (MultiToggle.HCons Reflect.REFLECTY MultiToggle.EOT)
+           l a
+    withVerticalToggle
+      = MultiToggle.mkToggle (MultiToggle.single Reflect.REFLECTY)
 
     withHorizontalToggle
       :: LayoutClass l a

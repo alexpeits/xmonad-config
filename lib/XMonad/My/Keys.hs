@@ -83,6 +83,15 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. controlMask .|. shiftMask, xK_j), windows W.swapDown >> windows W.focusUp)
   , ((modMask .|. controlMask .|. shiftMask, xK_k), windows W.swapUp >> windows W.focusDown)
 
+  -- media keys
+  , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
+  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 5%-")
+  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
+  , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
+  , ((0, xF86XK_AudioNext), spawn "playerctl next")
+  , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
+  , ((0, xF86XK_AudioStop), spawn "playerctl stop")
+
   ]
 
   ++
@@ -103,11 +112,12 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   if hasMediaKeys
 
-    then [ ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
-         , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 5%-")
-         , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
+    -- then [ ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
+    then [
+         -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
+         -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
          -- laptop + bluetooth = disaster
-         , ((modMask .|. controlMask, xK_F2), spawn "amixer -q set Master 5%-")
+           ((modMask .|. controlMask, xK_F2), spawn "amixer -q set Master 5%-")
          , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Master 5%+")
          , ((0, xF86XK_AudioMicMute), spawn "amixer -q set Capture toggle")
          , ((modMask, xK_F2), spawn "playerctl previous")
