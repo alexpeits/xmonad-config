@@ -62,6 +62,7 @@ dropDownRR w h = W.RationalRect 0 myTopMargin w h
 largeRectM  = customFloating $ middleRR 0.8 0.8
 medRectM    = customFloating $ middleRR 0.65 0.75
 medRectBR   = customFloating $ botRightRR 0.45 0.5
+smallRectM  = customFloating $ middleRR 0.45 0.55
 smallRectTR = customFloating $ topRightRR 0.25 0.3
 smallRectBR = customFloating $ botRightRR 0.3 0.4
 dropDown    = customFloating $ dropDownRR 1 0.35

@@ -24,6 +24,11 @@ scratchpads =
       (role =? "dropTerm")
       dropDown
   , NS.NS
+      "centerTerm"
+      "gnome-terminal --role=centerTerm"
+      (role =? "centerTerm")
+      smallRectM
+  , NS.NS
       "files"
       "nautilus --new-window --class=nautilusScratch"
       (className =? "nautilusScratch")

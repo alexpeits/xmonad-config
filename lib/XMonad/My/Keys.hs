@@ -58,8 +58,8 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. controlMask .|. shiftMask, xK_p), Util.getScreenshot)
 
   -- scratchpads
-  , ((modMask, xK_z), Scratch.actions "dropTerm")
   , ((0, xK_F12), Scratch.actions "dropTerm")
+  , ((modMask, xK_F12), Scratch.actions "centerTerm")
   , ((modMask .|. shiftMask, xK_n), Scratch.actions "scratch")
   , ((modMask .|. shiftMask, xK_d), Scratch.actions "docs")
   , ((modMask .|. shiftMask, xK_b), Scratch.actions "files")
