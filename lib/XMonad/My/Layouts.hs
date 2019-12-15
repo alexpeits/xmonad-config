@@ -8,11 +8,12 @@ import qualified XMonad.Layout                    as XL
 import qualified XMonad.Layout.Decoration         as Deco
 import qualified XMonad.Layout.Dwindle            as Dwindle
 import qualified XMonad.Layout.Maximize           as Maximize
-import qualified XMonad.Layout.MultiToggle        as MultiToggle
 import           XMonad.Layout.MultiToggle        ((??))
+import qualified XMonad.Layout.MultiToggle        as MultiToggle
 import           XMonad.Layout.Named              (named)
 import qualified XMonad.Layout.NoFrillsDecoration as NoFrills
 import qualified XMonad.Layout.Reflect            as Reflect
+import qualified XMonad.Layout.ResizableTile      as ResizableTile
 import qualified XMonad.Layout.Simplest           as Simplest
 import qualified XMonad.Layout.StackTile          as StackTile
 import qualified XMonad.Layout.Tabbed             as Tabbed
@@ -38,7 +39,7 @@ import           XMonad.Hooks.ManageDocks         (avoidStruts)
 
     tall
       = withToggle
-        $ XL.Tall 1 (3/100) 0.5
+        $ ResizableTile.ResizableTall 1 (3/100) 0.5 []
 
     left
       = withToggle

@@ -16,6 +16,7 @@ import qualified XMonad.Layout.IndependentScreens as IndS
 import qualified XMonad.Layout.Maximize           as Maximize
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
 import qualified XMonad.Layout.Reflect            as Reflect
+import qualified XMonad.Layout.ResizableTile      as ResizableTile
 import qualified XMonad.Layout.WindowNavigation   as WNav
 import qualified XMonad.StackSet                  as W
 
@@ -82,9 +83,14 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. shiftMask, xK_Down), sendMessage $ WNav.Move WNav.D)
 
   -- reflect horizontally
-  , ((modMask .|. shiftMask, xK_h), sendMessage $ MultiToggle.Toggle Reflect.REFLECTX)
+  , ((modMask , xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTX)
   -- reflect vertically
-  , ((modMask .|. shiftMask, xK_v), sendMessage $ MultiToggle.Toggle Reflect.REFLECTY)
+  , ((modMask .|. shiftMask, xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTY)
+
+  -- expand vertically
+  , ((modMask .|. shiftMask , xK_l), sendMessage ResizableTile.MirrorExpand)
+  -- shrink vertically
+  , ((modMask .|. shiftMask , xK_h), sendMessage ResizableTile.MirrorShrink)
 
   -- cycle monitors
   , ((modMask, xK_o), Cycle.nextScreen)
