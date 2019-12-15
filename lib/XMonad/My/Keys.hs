@@ -88,9 +88,9 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. shiftMask, xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTY)
 
   -- expand vertically
-  , ((modMask .|. shiftMask , xK_l), sendMessage ResizableTile.MirrorExpand)
+  , ((modMask .|. shiftMask , xK_h), sendMessage ResizableTile.MirrorExpand)
   -- shrink vertically
-  , ((modMask .|. shiftMask , xK_h), sendMessage ResizableTile.MirrorShrink)
+  , ((modMask .|. shiftMask , xK_l), sendMessage ResizableTile.MirrorShrink)
 
   -- cycle monitors
   , ((modMask, xK_o), Cycle.nextScreen)
