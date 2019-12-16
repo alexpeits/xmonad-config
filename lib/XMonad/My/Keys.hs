@@ -1,4 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Keys where
 
 import qualified Data.Map                         as M
@@ -12,7 +13,6 @@ import qualified XMonad.Actions.CycleWS           as Cycle
 import qualified XMonad.Actions.GridSelect        as GS
 import           XMonad.Actions.WindowBringer     (gotoMenuArgs')
 import           XMonad.Hooks.ManageDocks         (ToggleStruts(..))
-import qualified XMonad.Layout.IndependentScreens as IndS
 import qualified XMonad.Layout.Maximize           as Maximize
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
 import qualified XMonad.Layout.Reflect            as Reflect
@@ -114,17 +114,10 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   ++
 
-  case screens of
-
-    Cfg.SingleScreen _
-      -> [((m .|. modMask, k), windows $  f i)
-         | (i, k) <- zip (X.workspaces conf) [xK_1 .. xK_9]
-         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
-    _
-      -> [((m .|. modMask, k), windows $ IndS.onCurrentScreen f i)
-         | (i, k) <- zip (IndS.workspaces' conf) [xK_1 .. xK_9]
-         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+  [ ( (m .|. modMask, k), windows (f i) )
+  | (i, k) <- zip (X.workspaces conf) [xK_1 .. xK_9]
+  , (f, m) <- [ (W.greedyView, 0) , (W.shift, shiftMask) ]
+  ]
 
   ++
 
@@ -155,7 +148,6 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
          ]
 
 getKeys cfg x = M.union (M.fromList (customKeys cfg x)) (X.keys def x)
-
 
 rofiGoToWinArgs =
   [ "-dmenu"

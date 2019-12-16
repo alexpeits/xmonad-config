@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Scratchpad where
 
 import           XMonad                      (className, (=?), stringProperty)
@@ -35,7 +36,7 @@ scratchpads =
       medRectM
   ]
   where role  = stringProperty "WM_WINDOW_ROLE"
-        title = stringProperty "WM_NAME"
+        -- title = stringProperty "WM_NAME"
 
 actions = NS.namedScratchpadAction scratchpads
 

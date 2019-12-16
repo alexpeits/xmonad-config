@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
+{-# OPTIONS_GHC -Wno-unused-local-binds #-}
 module XMonad.My.Layouts where
 
 import           XMonad                           (def, (|||))
@@ -10,35 +12,26 @@ import qualified XMonad.Layout.Dwindle            as Dwindle
 import qualified XMonad.Layout.Maximize           as Maximize
 import           XMonad.Layout.MultiToggle        ((??))
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
-import           XMonad.Layout.Named              (named)
 import qualified XMonad.Layout.NoFrillsDecoration as NoFrills
 import qualified XMonad.Layout.Reflect            as Reflect
 import qualified XMonad.Layout.ResizableTile      as ResizableTile
-import qualified XMonad.Layout.Simplest           as Simplest
 import qualified XMonad.Layout.StackTile          as StackTile
 import qualified XMonad.Layout.Tabbed             as Tabbed
 
 import           XMonad.Hooks.ManageDocks         (avoidStruts)
 
 
-(singleScreen, dualScreenHorizontal, dualScreenLeftVertical)
-  = ( avoidStruts $ Maximize.maximizeWithPadding 10 singleScreenLayout
-    , avoidStruts $ Maximize.maximizeWithPadding 10 dualScreenHorizontalLayout
-    , avoidStruts $ Maximize.maximizeWithPadding 10 dualScreenLeftVerticalLayout
+(noTopBar, topBar)
+  = ( avoidStruts $ Maximize.maximizeWithPadding 10 noTopBar'
+    , avoidStruts $ Maximize.maximizeWithPadding 10 topBar'
     )
   where
-    singleScreenLayout
+    noTopBar'
       =   tall
       ||| focus
       ||| tabbed
 
-    dualScreenHorizontalLayout
-      =   withTopBar tall
-      ||| withTopBar spiralRight
-      ||| withTopBar focus
-      ||| withTopBar stackTile
-
-    dualScreenLeftVerticalLayout
+    topBar'
       =   withTopBar tall
       ||| withTopBar focus
       ||| tabbed

@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# LANGUAGE CPP #-}
 import           XMonad
 
@@ -23,12 +24,14 @@ import qualified XMonad.My.Workspaces        as My.Workspaces
 
 main = do
   let
-#ifdef ALT
-    cfg = My.Cfg.alt
+#ifdef WORK
+    cfg = My.Cfg.work
+    layout = My.Layouts.topBar
 #else
-    cfg = My.Cfg.single
+    cfg = My.Cfg.home
+    layout = My.Layouts.noTopBar
 #endif
-    wsp = My.Workspaces.getWorkspaces cfg
+    wsp = My.Workspaces.workspaces
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
@@ -41,7 +44,7 @@ main = do
     , keys               = My.Keys.getKeys cfg
     , manageHook
         = manageDocks
-        <+> My.Windows.getWindows cfg wsp
+        <+> My.Windows.moveWindows wsp
         <+> composeOne
           [ isDialog -?> doCenterFloat
           , stringProperty "WM_WINDOW_ROLE" =? "pop-up" -?> doCenterFloat
@@ -50,10 +53,6 @@ main = do
           ]
         <+> namedScratchpadManageHook My.Scratchpad.scratchpads
     , startupHook        = spawn "xfce4-panel --restart"
-#ifdef ALT
-    , layoutHook         = smartBorders My.Layouts.dualScreenLeftVertical
-#else
-    , layoutHook         = smartBorders My.Layouts.singleScreen
-#endif
+    , layoutHook         = smartBorders layout
     , handleEventHook    = handleEventHook def <+> docksEventHook
     }

@@ -1,14 +1,9 @@
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Config where
-
-import Data.Ratio (Rational)
-
 
 data Config
   = Config
-      { screens      :: ScreenConfig
-      , panelHeight  :: Int
-      , panelScreen  :: Resolution
-      , terminal     :: String
+      { terminal     :: String
       , launcher     :: String
       , screensaver  :: String
       , hasMediaKeys :: Bool
@@ -17,54 +12,22 @@ data Config
 defaultConfig :: Config
 defaultConfig
   = Config
-      { screens      = defaultScreenConfig
-      , panelHeight  = 25
-      , panelScreen  = defaultResolution
-      , terminal     = "gnome-terminal"
+      { terminal     = "gnome-terminal"
       , launcher     = rofiLauncher
       , screensaver  = "i3lock-fancy -p"
       , hasMediaKeys = True
       }
 
-data ScreenConfig
-  = SingleScreen Resolution
-  | DualScreenHorizontal Resolution Resolution
-
-defaultScreenConfig :: ScreenConfig
-defaultScreenConfig
-  = SingleScreen defaultResolution
-
-data Resolution
-  = Resolution
-      { w :: Rational
-      , h :: Rational
-      }
-
-defaultResolution :: Resolution
-defaultResolution
-  = Resolution
-      { w = 1920
-      , h = 1080
-      }
-
-
-single :: Config
-single
+home :: Config
+home
   = defaultConfig
 
-alt :: Config
-alt
+work :: Config
+work
   = defaultConfig
-      { screens      = DualScreenHorizontal right left
-      , panelHeight  = 28
-      , panelScreen  = left
-      , screensaver  = "xscreensaver-command -lock"
+      { screensaver  = "xscreensaver-command -lock"
       , hasMediaKeys = False
       }
-  where
-    -- TODO
-    right = Resolution 1 1
-    left = Resolution 1 1
 
 rofiLauncher = unwords
   [ "rofi -modi drun,run -show drun"
