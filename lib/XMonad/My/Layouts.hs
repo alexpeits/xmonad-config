@@ -21,9 +21,10 @@ import qualified XMonad.Layout.Tabbed             as Tabbed
 import           XMonad.Hooks.ManageDocks         (avoidStruts)
 
 
-(singleScreen, dualScreenHorizontal)
+(singleScreen, dualScreenHorizontal, dualScreenLeftVertical)
   = ( avoidStruts $ Maximize.maximizeWithPadding 10 singleScreenLayout
     , avoidStruts $ Maximize.maximizeWithPadding 10 dualScreenHorizontalLayout
+    , avoidStruts $ Maximize.maximizeWithPadding 10 dualScreenLeftVerticalLayout
     )
   where
     singleScreenLayout
@@ -36,6 +37,11 @@ import           XMonad.Hooks.ManageDocks         (avoidStruts)
       ||| withTopBar spiralRight
       ||| withTopBar focus
       ||| withTopBar stackTile
+
+    dualScreenLeftVerticalLayout
+      =   withTopBar tall
+      ||| withTopBar focus
+      ||| tabbed
 
     tall
       = withToggle

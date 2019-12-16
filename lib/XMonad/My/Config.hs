@@ -48,16 +48,16 @@ defaultResolution
       }
 
 
-thinkpad13 :: Config
-thinkpad13
+single :: Config
+single
   = defaultConfig
 
-workHorizontal :: Config
-workHorizontal
+alt :: Config
+alt
   = defaultConfig
       { screens      = DualScreenHorizontal right left
       , panelHeight  = 28
-      , panelScreen  = right
+      , panelScreen  = left
       , screensaver  = "xscreensaver-command -lock"
       , hasMediaKeys = False
       }
