@@ -1,9 +1,13 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# LANGUAGE CPP #-}
+import           Control.Monad               (when)
+import           System.IO                   (hPutStrLn)
+
 import           XMonad
 
 import           XMonad.Config.Xfce          (xfceConfig)
 
+import qualified XMonad.Hooks.DynamicLog     as DL
 import           XMonad.Hooks.EwmhDesktops   (ewmh)
 import           XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
 import           XMonad.Hooks.ManageDocks    (manageDocks, docksEventHook)
@@ -13,6 +17,7 @@ import           XMonad.Layout.Fullscreen    (fullscreenSupport)
 import           XMonad.Layout.NoBorders     (smartBorders)
 
 import           XMonad.Util.NamedScratchpad (namedScratchpadManageHook)
+import           XMonad.Util.Run             (spawnPipe)
 
 import qualified XMonad.My.Config            as My.Cfg
 import qualified XMonad.My.Keys              as My.Keys
@@ -21,6 +26,16 @@ import qualified XMonad.My.Scratchpad        as My.Scratchpad
 import qualified XMonad.My.Windows           as My.Windows
 import qualified XMonad.My.Workspaces        as My.Workspaces
 
+xmobarPanel process = DL.dynamicLogWithPP $ DL.xmobarPP
+  { DL.ppOutput  = hPutStrLn process
+  , DL.ppTitle   = DL.xmobarColor "#d58966" "" . DL.shorten 100
+  , DL.ppCurrent = DL.xmobarColor "#2ec8a2" "" . DL.wrap "[" "]"
+  , DL.ppVisible = DL.xmobarColor "#3b7887" "" . DL.wrap "(" ")"
+  , DL.ppHidden  = \ws -> if ws == "NSP" then "" else ws
+  , DL.ppSep     = DL.xmobarColor "#676767" "" " | "
+  , DL.ppLayout  = DL.xmobarColor "#676767" ""
+  , DL.ppUrgent  = DL.xmobarColor "red" "yellow"
+  }
 
 main = do
   let
@@ -32,6 +47,9 @@ main = do
     layout = My.Layouts.noTopBar
 #endif
     wsp = My.Workspaces.workspaces
+    myLogHook =
+      when (My.Cfg.useXmobar cfg) $
+        spawnPipe "xmobar ~/.xmonad/xmobar.hs" >>= xmobarPanel
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
@@ -55,4 +73,5 @@ main = do
     , startupHook        = spawn "xfce4-panel --restart"
     , layoutHook         = smartBorders layout
     , handleEventHook    = handleEventHook def <+> docksEventHook
+    , logHook            = myLogHook
     }

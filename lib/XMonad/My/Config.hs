@@ -7,6 +7,7 @@ data Config
       , launcher     :: String
       , screensaver  :: String
       , hasMediaKeys :: Bool
+      , useXmobar    :: Bool
       }
 
 defaultConfig :: Config
@@ -16,6 +17,7 @@ defaultConfig
       , launcher     = rofiLauncher
       , screensaver  = "i3lock-fancy -p"
       , hasMediaKeys = True
+      , useXmobar    = False
       }
 
 home :: Config
