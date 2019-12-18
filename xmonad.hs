@@ -47,9 +47,9 @@ main = do
     layout = My.Layouts.noTopBar
 #endif
     wsp = My.Workspaces.workspaces
-    myLogHook =
-      when (My.Cfg.useXmobar cfg) $
-        spawnPipe "xmobar ~/.xmonad/xmobar.hs" >>= xmobarPanel
+    -- myLogHook =
+      -- when (My.Cfg.useXmobar cfg) $
+        -- spawnPipe "xmobar ~/.xmonad/xmobar.hs" >>= xmobarPanel
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
@@ -73,5 +73,5 @@ main = do
     , startupHook        = spawn "xfce4-panel --restart"
     , layoutHook         = smartBorders layout
     , handleEventHook    = handleEventHook def <+> docksEventHook
-    , logHook            = myLogHook
+    -- , logHook            = myLogHook
     }
