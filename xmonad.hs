@@ -54,11 +54,11 @@ main = do
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
     , clickJustFocuses   = False
-    , borderWidth        = 1
     , modMask            = mod4Mask
     , workspaces         = wsp
-    , normalBorderColor  = "#5b5b5b"
-    , focusedBorderColor = "#db7272"
+    , borderWidth        = My.Cfg.borderWidth cfg
+    , normalBorderColor  = My.Cfg.normalBorderColor cfg
+    , focusedBorderColor = My.Cfg.focusedBorderColor cfg
     , keys               = My.Keys.getKeys cfg
     , manageHook
         = manageDocks
