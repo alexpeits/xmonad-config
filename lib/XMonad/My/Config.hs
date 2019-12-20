@@ -38,7 +38,7 @@ work
       { screensaver       = "xscreensaver-command -lock"
       , hasMediaKeys      = False
       , borderWidth       = 2
-      , normalBorderColor = "#002b36"
+      , normalBorderColor = "#27444c"
       , focusedBorderColor = "#268bd2"
       }
 

@@ -116,7 +116,7 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   [ ( (m .|. modMask, k), windows (f i) )
   | (i, k) <- zip (X.workspaces conf) [xK_1 .. xK_9]
-  , (f, m) <- [ (W.greedyView, 0) , (W.shift, shiftMask) ]
+  , (f, m) <- [ (W.view, 0) , (W.shift, shiftMask) ]
   ]
 
   ++
