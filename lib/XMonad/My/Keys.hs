@@ -38,7 +38,7 @@ copyToAllOrKillOther = do
 customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- terminal
   [ ((modMask .|. shiftMask, xK_Return), spawn $ X.terminal conf)
-  , ((modMask .|. controlMask .|. shiftMask, xK_Return), spawn "gnome-terminal --profile=Light")
+  , ((modMask .|. controlMask .|. shiftMask, xK_Return), spawn "gnome-terminal --profile='Light alt'")
 
   -- screen lock
   , ((modMask .|. controlMask, xK_l), spawn screensaver)
