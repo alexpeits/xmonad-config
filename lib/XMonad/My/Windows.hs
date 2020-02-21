@@ -18,9 +18,9 @@ nWorkspace ws i = ws !! (i - 1)
 moveWindows wsp
   = composeAll
       [ className =? "Emacs"              --> doShift (nWorkspace wsp 3)
-      , className =? "Slack"              --> doShift (nWorkspace wsp 4)
-      , className =? "Skype"              --> doShift (nWorkspace wsp 4)
-      , className =? "Pidgin"             --> doShift (nWorkspace wsp 4)
+      -- , className =? "Slack"              --> doShift (nWorkspace wsp 4)
+      -- , className =? "Skype"              --> doShift (nWorkspace wsp 4)
+      -- , className =? "Pidgin"             --> doShift (nWorkspace wsp 4)
       , className =? "vlc"                --> doShift (nWorkspace wsp 5)
       , className =? "Spotify"            --> doShift (nWorkspace wsp 5)
       , className =? "spotify"            --> doShift (nWorkspace wsp 5)
