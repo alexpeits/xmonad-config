@@ -23,9 +23,12 @@ defaultConfig
       , screensaver        = "i3lock-fancy -p"
       , hasMediaKeys       = True
       , useXmobar          = False
-      , borderWidth        = 1
-      , normalBorderColor  = "#5b5b5b"
-      , focusedBorderColor = "#db7272"
+      -- , borderWidth        = 1
+      -- , normalBorderColor  = "#5b5b5b"
+      -- , focusedBorderColor = "#db7272"
+      , borderWidth        = 2
+      , normalBorderColor  = "#27444c"
+      , focusedBorderColor = "#268bd2"
       }
 
 home :: Config
