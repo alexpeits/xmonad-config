@@ -61,6 +61,7 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- scratchpads
   , ((0, xK_F12), Scratch.actions "dropTerm")
   , ((modMask, xK_F12), Scratch.actions "centerTerm")
+  , ((modMask, xK_F11), Scratch.actions "centerChrome")
   , ((modMask .|. shiftMask, xK_n), Scratch.actions "scratch")
   , ((modMask .|. shiftMask, xK_d), Scratch.actions "docs")
   , ((modMask .|. shiftMask, xK_b), Scratch.actions "files")

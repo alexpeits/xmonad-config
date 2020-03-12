@@ -20,6 +20,11 @@ scratchpads =
       (className =? "Docs")
       medRectBR
   , NS.NS
+      "centerChrome"
+      chrome
+      (className =? "centerChrome")
+      medRectM
+  , NS.NS
       "dropTerm"
       "gnome-terminal --role=dropTerm"
       (role =? "dropTerm")
@@ -46,4 +51,11 @@ firefoxDocs = unwords
   , "https://hoogle.haskell.org"
   , "https://www.haskell.org/hoogle"
   , "https://pursuit.purescript.org"
+  ]
+
+chrome = unwords
+  [ "google-chrome-stable"
+  , "--new-window"
+  , "--user-data-dir=/tmp/tmp-chrome"
+  , "--class=centerChrome"
   ]
