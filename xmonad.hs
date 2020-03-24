@@ -64,7 +64,7 @@ main = do
         = manageDocks
         <+> My.Windows.moveWindows wsp
         <+> composeOne
-          [ isDialog -?> doCenterFloat
+          [ isDialog -?> (doCenterFloat >> insertPosition Above Newer)
           , stringProperty "WM_WINDOW_ROLE" =? "pop-up" -?> doCenterFloat
           , transience -- Move transient windows to their parent.
           , pure True -?> insertPosition Below Newer
