@@ -35,7 +35,7 @@ copyToAllOrKillOther = do
     then windows CopyWindow.copyToAll
     else CopyWindow.killAllOtherCopies
 
-customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
+customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- terminal
   [ ((modMask .|. shiftMask, xK_Return), spawn $ X.terminal conf)
   , ((modMask .|. controlMask .|. shiftMask, xK_Return), spawn "TERM_LIGHT=1 gnome-terminal --profile='Light alt'")
@@ -115,10 +115,16 @@ customKeys Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   ++
 
-  [ ( (m .|. modMask, k), windows (f i) )
-  | (i, k) <- zip (X.workspaces conf) [xK_1 .. xK_9]
-  , (f, m) <- [ (W.view, 0) , (W.shift, shiftMask) ]
-  ]
+  let
+    view
+      = case Cfg.windowView cfg of
+          Cfg.View -> W.view
+          Cfg.GreedyView -> W.greedyView
+  in
+    [ ( (m .|. modMask, k), windows (f i) )
+    | (i, k) <- zip (X.workspaces conf) [xK_1 .. xK_9]
+    , (f, m) <- [ (view, 0) , (W.shift, shiftMask) ]
+    ]
 
   ++
 

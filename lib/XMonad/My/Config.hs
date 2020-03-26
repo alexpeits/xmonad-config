@@ -3,6 +3,10 @@ module XMonad.My.Config where
 
 import Data.Word (Word32)
 
+data WindowView
+  = View
+  | GreedyView
+
 data Config
   = Config
       { terminal           :: String
@@ -13,6 +17,7 @@ data Config
       , borderWidth        :: Word32
       , normalBorderColor  :: String
       , focusedBorderColor :: String
+      , windowView         :: WindowView
       }
 
 defaultConfig :: Config
@@ -23,17 +28,17 @@ defaultConfig
       , screensaver        = "i3lock-fancy -p"
       , hasMediaKeys       = True
       , useXmobar          = False
-      -- , borderWidth        = 1
-      -- , normalBorderColor  = "#5b5b5b"
-      -- , focusedBorderColor = "#db7272"
       , borderWidth        = 2
       , normalBorderColor  = "#27444c"
       , focusedBorderColor = "#268bd2"
+      , windowView         = View
       }
 
 home :: Config
 home
   = defaultConfig
+      { windowView = GreedyView
+      }
 
 work :: Config
 work
