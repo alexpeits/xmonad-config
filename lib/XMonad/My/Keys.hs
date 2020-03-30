@@ -47,6 +47,7 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask, xK_backslash), withFocused (sendMessage . Maximize.maximizeRestore))
 
   -- copy current win to all ws or kill other copies
+  -- NOTE: doesn't really work with multiple monitors
   , ((modMask, xK_r), copyToAllOrKillOther)
 
   -- launcher
@@ -61,7 +62,6 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- scratchpads
   , ((0, xK_F12), Scratch.actions "dropTerm")
   , ((modMask, xK_F12), Scratch.actions "centerTerm")
-  , ((modMask, xK_F11), Scratch.actions "centerChrome")
   , ((modMask .|. shiftMask, xK_n), Scratch.actions "scratch")
   , ((modMask .|. shiftMask, xK_d), Scratch.actions "docs")
   , ((modMask .|. shiftMask, xK_b), Scratch.actions "files")
@@ -69,19 +69,10 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- toggle xmobar
   , ((modMask .|. shiftMask, xK_f), sendMessage ToggleStruts)
 
-  -- Toggle CM keyboard led on/off
-  , ((0, xK_Scroll_Lock), spawn "~/bin/cmstorm_led")
-
   -- brightness up
   , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 5%")
   -- brightness down
   , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 5%")
-
-  -- move windows to sublayouts
-  , ((modMask .|. shiftMask, xK_Left), sendMessage $ WNav.Move WNav.L)
-  , ((modMask .|. shiftMask, xK_Right), sendMessage $ WNav.Move WNav.R)
-  , ((modMask .|. shiftMask, xK_Up), sendMessage $ WNav.Move WNav.U)
-  , ((modMask .|. shiftMask, xK_Down), sendMessage $ WNav.Move WNav.D)
 
   -- reflect horizontally
   , ((modMask , xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTX)
