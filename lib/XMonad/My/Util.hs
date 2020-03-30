@@ -28,9 +28,9 @@ getScreenshot :: X ()
 getScreenshot
   = spawnSelectedWithLabel
       def
-      [ ("select area or window", (selectAreaOrWindow, True))
-      , ("current window", (curWindow, False))
-      , ("full screen", (fullScreen, False))
+      [ ("area or window", (selectAreaOrWindow, True))
+      , ("window", (curWindow, False))
+      , ("fullscreen", (fullScreen, False))
       ]
   where
     selectAreaOrWindow = scrot "-s"
