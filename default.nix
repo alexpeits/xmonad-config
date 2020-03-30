@@ -1,9 +1,16 @@
-{ pkgs ? import ./nix/nixpkgs.nix { } }:
+{ pkgs ? import ./nix/nixpkgs.nix {} }:
 
 let
 
-  ghcWithPackages = pkgs.haskellPackages.ghcWithPackages
-    (self: with self; [ xmonad xmonad-contrib xmonad-extras filepath directory aeson ]);
+  ghcWithPackages = pkgs.haskellPackages.ghcWithPackages (
+    self:
+      with self; [
+        xmonad
+        xmonad-contrib
+        xmonad-extras
+        hostname
+      ]
+  );
 
   shell = pkgs.mkShell {
     shellHook = ''
@@ -22,7 +29,8 @@ let
        -main-is main -v0 -o "$1"
   '';
 
-in {
+in
+{
   ghc = ghcWithPackages;
   shell = shell;
   script = script;

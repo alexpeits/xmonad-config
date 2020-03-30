@@ -1,15 +1,10 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
-import           Control.Monad               (when)
+{-# OPTIONS_GHC -Wunused-imports #-}
 import           System.IO                   (hPutStrLn)
-import           Control.Exception           (catch)
 
-import qualified Data.Aeson                  as Ae
-import qualified System.Directory            as Dir
-import           System.Exit                 (die)
-import           System.FilePath             ((</>))
+import           Network.HostName            (getHostName)
 
 import           XMonad
-
 import           XMonad.Config.Xfce          (xfceConfig)
 
 import qualified XMonad.Hooks.DynamicLog     as DL
@@ -22,7 +17,6 @@ import           XMonad.Layout.Fullscreen    (fullscreenSupport)
 import           XMonad.Layout.NoBorders     (smartBorders)
 
 import           XMonad.Util.NamedScratchpad (namedScratchpadManageHook)
-import           XMonad.Util.Run             (spawnPipe)
 
 import qualified XMonad.My.Config            as My.Cfg
 import qualified XMonad.My.Keys              as My.Keys
@@ -42,46 +36,28 @@ xmobarPanel process = DL.dynamicLogWithPP $ DL.xmobarPP
   , DL.ppUrgent  = DL.xmobarColor "red" "yellow"
   }
 
+main :: IO ()
 main = do
-  home <- Dir.getHomeDirectory
+  hostname <- getHostName
 
-  let
-    errFile = home </> ".xmonad/error"
-    warnFile = home </> ".xmonad/warning"
-    rm f = do
-      exists <- Dir.doesFileExist f
-      if exists
-      then Dir.removeFile f
-      else pure ()
-    cfgPath = home </> ".xmonad-config.json"
-    handleErr s = do
+  cfg <- case lookup hostname My.Cfg.configs of
+    Just c -> pure c
+    Nothing -> do
       spawn $ unwords
-        [ "xmessage"
-        , "'Could not load config,"
-        , "look at .xmonad/error for details."
-        , "Loading default config'"
+        [ "xmessage '"
+        , "No config found for host"
+        , hostname
+        , "- using default config.'"
         ]
-      writeFile errFile s
-      pure My.Cfg.defaultConfig
-    loadCfg =
-      Ae.eitherDecodeFileStrict cfgPath
-      >>= either handleErr pure
-
-  rm errFile
-  rm warnFile
-  cfgExists <- Dir.doesFileExist cfgPath
-  cfg <-
-    if cfgExists
-    then loadCfg
-    else do
-      writeFile warnFile "no config found"
       pure My.Cfg.defaultConfig
 
   let
-    wsp = My.Workspaces.workspaces
+    wsp
+      = My.Workspaces.workspaces
     -- myLogHook =
       -- when (My.Cfg.useXmobar cfg) $
         -- spawnPipe "xmobar ~/.xmonad/xmobar.hs" >>= xmobarPanel
+
   xmonad $ fullscreenSupport $ ewmh $ xfceConfig
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False

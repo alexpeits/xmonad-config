@@ -1,23 +1,17 @@
-{-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE OverloadedStrings #-}
-
-{-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Config where
 
-import Data.Word (Word32)
+import Data.Word        (Word32)
+import Network.HostName (HostName)
 
-import qualified Data.Aeson as Ae
-import Data.Aeson ((.:?), (.!=))
+configs :: [(HostName, Config)]
+configs
+  = [ ("nixos", home)
+    , ("trilobite", work)
+    ]
 
 data WindowView
   = View
   | GreedyView
-
-instance Ae.FromJSON WindowView where
-  parseJSON = Ae.withText "WindowView" $ \case
-    "View" -> pure View
-    "GreedyView" -> pure GreedyView
-    v -> fail $ "Invalid WindowView value: " <> show v
 
 data Config
   = Config
@@ -31,19 +25,6 @@ data Config
       , focusedBorderColor :: String
       , windowView         :: WindowView
       }
-
-instance Ae.FromJSON Config where
-  parseJSON = Ae.withObject "Config" $ \o ->
-    Config
-      <$> o .:? "terminal" .!= terminal defaultConfig
-      <*> o .:? "launcher" .!= launcher defaultConfig
-      <*> o .:? "screensaver" .!= screensaver defaultConfig
-      <*> o .:? "hasMediaKeys" .!= hasMediaKeys defaultConfig
-      <*> o .:? "useXmobar" .!= useXmobar defaultConfig
-      <*> o .:? "borderWidth" .!= borderWidth defaultConfig
-      <*> o .:? "normalBorderColor" .!= normalBorderColor defaultConfig
-      <*> o .:? "focusedBorderColor" .!= focusedBorderColor defaultConfig
-      <*> o .:? "windowView" .!= windowView defaultConfig
 
 defaultConfig :: Config
 defaultConfig
@@ -66,12 +47,9 @@ home
 work :: Config
 work
   = defaultConfig
-      { screensaver        = "xscreensaver-command -lock"
-      , hasMediaKeys       = False
-      , borderWidth        = 2
-      , normalBorderColor  = "#27444c"
-      , focusedBorderColor = "#268bd2"
-      , windowView         = View
+      { screensaver  = "xscreensaver-command -lock"
+      , hasMediaKeys = False
+      , windowView   = View
       }
 
 rofiLauncher = unwords
