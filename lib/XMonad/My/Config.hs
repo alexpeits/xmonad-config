@@ -1,11 +1,23 @@
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Config where
 
 import Data.Word (Word32)
 
+import qualified Data.Aeson as Ae
+import Data.Aeson ((.:?), (.!=))
+
 data WindowView
   = View
   | GreedyView
+
+instance Ae.FromJSON WindowView where
+  parseJSON = Ae.withText "WindowView" $ \case
+    "View" -> pure View
+    "GreedyView" -> pure GreedyView
+    v -> fail $ "Invalid WindowView value: " <> show v
 
 data Config
   = Config
@@ -20,6 +32,19 @@ data Config
       , windowView         :: WindowView
       }
 
+instance Ae.FromJSON Config where
+  parseJSON = Ae.withObject "Config" $ \o ->
+    Config
+      <$> o .:? "terminal" .!= terminal defaultConfig
+      <*> o .:? "launcher" .!= launcher defaultConfig
+      <*> o .:? "screensaver" .!= screensaver defaultConfig
+      <*> o .:? "hasMediaKeys" .!= hasMediaKeys defaultConfig
+      <*> o .:? "useXmobar" .!= useXmobar defaultConfig
+      <*> o .:? "borderWidth" .!= borderWidth defaultConfig
+      <*> o .:? "normalBorderColor" .!= normalBorderColor defaultConfig
+      <*> o .:? "focusedBorderColor" .!= focusedBorderColor defaultConfig
+      <*> o .:? "windowView" .!= windowView defaultConfig
+
 defaultConfig :: Config
 defaultConfig
   = Config
@@ -31,23 +56,22 @@ defaultConfig
       , borderWidth        = 2
       , normalBorderColor  = "#27444c"
       , focusedBorderColor = "#268bd2"
-      , windowView         = View
+      , windowView         = GreedyView
       }
 
 home :: Config
 home
   = defaultConfig
-      { windowView = GreedyView
-      }
 
 work :: Config
 work
   = defaultConfig
-      { screensaver       = "xscreensaver-command -lock"
-      , hasMediaKeys      = False
-      , borderWidth       = 2
-      , normalBorderColor = "#27444c"
+      { screensaver        = "xscreensaver-command -lock"
+      , hasMediaKeys       = False
+      , borderWidth        = 2
+      , normalBorderColor  = "#27444c"
       , focusedBorderColor = "#268bd2"
+      , windowView         = View
       }
 
 rofiLauncher = unwords

@@ -1,8 +1,9 @@
+{-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# OPTIONS_GHC -Wno-unused-local-binds #-}
 module XMonad.My.Layouts where
 
-import           XMonad                           (def, (|||))
+import           XMonad                           (Window, def, (|||))
 
 import           XMonad.Config.Prime              (LayoutClass)
 
@@ -20,46 +21,40 @@ import qualified XMonad.Layout.Tabbed             as Tabbed
 
 import           XMonad.Hooks.ManageDocks         (avoidStruts)
 
-
-(noTopBar, topBar)
-  = ( avoidStruts $ Maximize.maximizeWithPadding 10 noTopBar'
-    , avoidStruts $ Maximize.maximizeWithPadding 10 topBar'
-    )
+layout
+  = avoidStruts $ tall ||| focus ||| tabbed
   where
-    noTopBar'
-      =   tall
-      ||| focus
-      ||| tabbed
-
-    topBar'
-      =   withTopBar tall
-      ||| withTopBar focus
-      ||| tabbed
 
     tall
       = withToggle
-        $ ResizableTile.ResizableTall 1 (3/100) 0.5 []
+      $ withMaximize
+      $ ResizableTile.ResizableTall 1 (3/100) 0.5 []
 
     left
       = withToggle
-        $ XL.Tall 1 (3/100) 0.75
+      $ withMaximize
+      $ XL.Tall 1 (3/100) 0.75
 
     right
       = withToggle
-        $ Reflect.reflectHoriz
-        $ XL.Tall 1 (3/100) 0.75
+      $ withMaximize
+      $ Reflect.reflectHoriz
+      $ XL.Tall 1 (3/100) 0.75
 
     spiralRight
       = withToggle
-        $ Dwindle.Dwindle Dwindle.L Dwindle.CCW 2.75 1.07
+      $ withMaximize
+      $ Dwindle.Dwindle Dwindle.L Dwindle.CCW 2.75 1.07
 
     focus
       = withToggle
-        $ XL.Mirror left
+      $ withMaximize
+      $ XL.Mirror left
 
     stackTile
       = withToggle
-        $ StackTile.StackTile 2 (3/100) 0.7
+      $ withMaximize
+      $ StackTile.StackTile 2 (3/100) 0.7
 
     tabbed
       = Tabbed.tabbed Deco.shrinkText tabTheme
@@ -73,18 +68,25 @@ import           XMonad.Hooks.ManageDocks         (avoidStruts)
                 , Tabbed.decoHeight = 18
                 }
 
-    withTopBar
-      = NoFrills.noFrillsDeco Deco.shrinkText topBarTheme
-      where
-        topBarTheme
-          = def { NoFrills.inactiveBorderColor   = "#002b36"
-                , NoFrills.inactiveColor         = "#002b36"
-                , NoFrills.inactiveTextColor     = "#002b36"
-                , NoFrills.activeBorderColor     = "#268bd2"
-                , NoFrills.activeColor           = "#268bd2"
-                , NoFrills.activeTextColor       = "#268bd2"
-                , NoFrills.decoHeight            = 10
-                }
+    -- withTopBar
+    --   = NoFrills.noFrillsDeco Deco.shrinkText topBarTheme
+    --   where
+    --     topBarTheme
+    --       = def { NoFrills.inactiveBorderColor   = "#002b36"
+    --             , NoFrills.inactiveColor         = "#002b36"
+    --             , NoFrills.inactiveTextColor     = "#002b36"
+    --             , NoFrills.activeBorderColor     = "#268bd2"
+    --             , NoFrills.activeColor           = "#268bd2"
+    --             , NoFrills.activeTextColor       = "#268bd2"
+    --             , NoFrills.decoHeight            = 10
+    --             }
+
+    withMaximize
+      :: LayoutClass l Window
+      => l Window
+      -> Deco.ModifiedLayout Maximize.Maximize l Window
+    withMaximize
+      = Maximize.maximizeWithPadding 10
 
     withToggle
       :: LayoutClass l a

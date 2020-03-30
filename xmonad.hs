@@ -1,7 +1,12 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
-{-# LANGUAGE CPP #-}
 import           Control.Monad               (when)
 import           System.IO                   (hPutStrLn)
+import           Control.Exception           (catch)
+
+import qualified Data.Aeson                  as Ae
+import qualified System.Directory            as Dir
+import           System.Exit                 (die)
+import           System.FilePath             ((</>))
 
 import           XMonad
 
@@ -38,14 +43,41 @@ xmobarPanel process = DL.dynamicLogWithPP $ DL.xmobarPP
   }
 
 main = do
+  home <- Dir.getHomeDirectory
+
   let
-#ifdef WORK
-    cfg = My.Cfg.work
-    layout = My.Layouts.topBar
-#else
-    cfg = My.Cfg.home
-    layout = My.Layouts.noTopBar
-#endif
+    errFile = home </> ".xmonad/error"
+    warnFile = home </> ".xmonad/warning"
+    rm f = do
+      exists <- Dir.doesFileExist f
+      if exists
+      then Dir.removeFile f
+      else pure ()
+    cfgPath = home </> ".xmonad-config.json"
+    handleErr s = do
+      spawn $ unwords
+        [ "xmessage"
+        , "'Could not load config,"
+        , "look at .xmonad/error for details."
+        , "Loading default config'"
+        ]
+      writeFile errFile s
+      pure My.Cfg.defaultConfig
+    loadCfg =
+      Ae.eitherDecodeFileStrict cfgPath
+      >>= either handleErr pure
+
+  rm errFile
+  rm warnFile
+  cfgExists <- Dir.doesFileExist cfgPath
+  cfg <-
+    if cfgExists
+    then loadCfg
+    else do
+      writeFile warnFile "no config found"
+      pure My.Cfg.defaultConfig
+
+  let
     wsp = My.Workspaces.workspaces
     -- myLogHook =
       -- when (My.Cfg.useXmobar cfg) $
@@ -71,7 +103,7 @@ main = do
           ]
         <+> namedScratchpadManageHook My.Scratchpad.scratchpads
     , startupHook        = spawn "xfce4-panel --restart"
-    , layoutHook         = smartBorders layout
+    , layoutHook         = smartBorders My.Layouts.layout
     , handleEventHook    = handleEventHook def <+> docksEventHook
     -- , logHook            = myLogHook
     }

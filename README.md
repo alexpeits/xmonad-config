@@ -13,31 +13,11 @@
 $ nix-env -i -f default.nix -A xmonad
 ```
 
-Alternatively:
-
-```
-$ nix-build -A xmonad
-```
-
-And then copy the `xmonad` executable from `result/bin/xmonad` somewhere
-in the `$PATH`. This is fragile because in case of `nix-collect-garbage`
-some symlinks might disappear and the executable will stop working.
-
 2. Install the `xmonad-build` script
 
 ```
 $ nix-env -i -f default.nix -A script
 ```
-
-Alternatively:
-
-```
-$ nix-build -A script
-```
-
-Then either copy the `xmonad-build` executable somewhere in
-`$PATH` or leave it there. Same warning as the previous section about
-`nix-collect-garbage`.
 
 ## Usage
 

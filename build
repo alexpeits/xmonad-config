@@ -1,17 +1,4 @@
 #!/usr/bin/env bash
-# the xmonad-build script is required and can be built by doing:
-# nix-build -A script
 
-build_script="$HOME/.xmonad/result/bin/xmonad-build"
-
-if [[ -x "$(command -v xmonad-build)" ]]; then
-    echo "Build script found in path"
-    xmonad-build "$@"
-elif [[ -x "$build_script" ]]; then
-    echo "Build script found in ~/.xmonad/result/bin"
-    eval "$build_script $@"
-else
-    echo "Build script not found"
-    exit 1
-fi
+xmonad-build "$@"
 
