@@ -1,14 +1,17 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# OPTIONS_GHC -Wno-unused-local-binds #-}
+{-# OPTIONS_GHC -Wunused-imports #-}
 module XMonad.My.Layouts where
 
 import           GHC.Word                         (Word64)
 
-import           XMonad                           (Window, def, (|||))
-import           XMonad.Config.Prime              (LayoutClass)
+import           XMonad
+import           XMonad.Config.Prime              (LayoutClass(..))
 
 import           XMonad.Hooks.ManageDocks         (avoidStruts)
+
+import qualified XMonad.Layout.IfMaxFix           as IfMax
 
 import qualified XMonad.Layout                    as XL
 import qualified XMonad.Layout.Decoration         as Deco
@@ -71,16 +74,18 @@ layout
              (MultiToggle.HCons Reflect.REFLECTY MultiToggle.EOT))
            (Deco.ModifiedLayout
              Maximize.Maximize
-             (ToggleLayouts.ToggleLayouts
+             (IfMax.IfMax
                l
-               (Deco.ModifiedLayout
-                 (Deco.Decoration NoFrills.NoFrillsDecoration Deco.DefaultShrinker)
-                 l)))
+               (ToggleLayouts.ToggleLayouts
+                 l
+                 (Deco.ModifiedLayout
+                   (Deco.Decoration NoFrills.NoFrillsDecoration Deco.DefaultShrinker)
+                   l))))
            Window
     tiled l
       = withReflect
       $ withMaximize
-      $ ToggleLayouts.toggleLayouts l (withTopBar l)
+      $ IfMax.ifMax 1 l (ToggleLayouts.toggleLayouts l (withTopBar l))
 
     withTopBar
       :: l Window
