@@ -21,6 +21,7 @@ import qualified XMonad.Layout.Reflect            as Reflect
 import qualified XMonad.Layout.ResizableTile      as ResizableTile
 import qualified XMonad.Layout.StackTile          as StackTile
 import qualified XMonad.Layout.Tabbed             as Tabbed
+import qualified XMonad.Layout.ToggleLayouts      as ToggleLayouts
 
 layout
   = avoidStruts $ tall ||| focus ||| tabbed
@@ -65,21 +66,21 @@ layout
       :: LayoutClass l Word64
       => l Window
       -> MultiToggle.MultiToggle
-            (MultiToggle.HCons
-              Reflect.REFLECTX
-              (MultiToggle.HCons Reflect.REFLECTY
-               MultiToggle.EOT))
-            (Deco.ModifiedLayout
-              Maximize.Maximize
-              (Deco.ModifiedLayout
-                  (Deco.Decoration
-                    NoFrills.NoFrillsDecoration Deco.DefaultShrinker)
-                  l))
-            Window
-    tiled
+           (MultiToggle.HCons
+             Reflect.REFLECTX
+             (MultiToggle.HCons Reflect.REFLECTY MultiToggle.EOT))
+           (Deco.ModifiedLayout
+             Maximize.Maximize
+             (ToggleLayouts.ToggleLayouts
+               l
+               (Deco.ModifiedLayout
+                 (Deco.Decoration NoFrills.NoFrillsDecoration Deco.DefaultShrinker)
+                 l)))
+           Window
+    tiled l
       = withReflect
-      . withMaximize
-      . withTopBar
+      $ withMaximize
+      $ ToggleLayouts.toggleLayouts l (withTopBar l)
 
     withTopBar
       :: l Window

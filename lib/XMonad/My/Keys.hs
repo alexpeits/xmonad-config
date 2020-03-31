@@ -17,6 +17,7 @@ import qualified XMonad.Layout.Maximize           as Maximize
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
 import qualified XMonad.Layout.Reflect            as Reflect
 import qualified XMonad.Layout.ResizableTile      as ResizableTile
+import qualified XMonad.Layout.ToggleLayouts      as ToggleLayouts
 import qualified XMonad.Layout.WindowNavigation   as WNav
 import qualified XMonad.StackSet                  as W
 
@@ -78,6 +79,8 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask , xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTX)
   -- reflect vertically
   , ((modMask .|. shiftMask, xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTY)
+  -- toggle layouts, used to remove top bar
+  , ((modMask, xK_d), sendMessage ToggleLayouts.ToggleLayout)
 
   -- expand vertically
   , ((modMask .|. shiftMask , xK_h), sendMessage ResizableTile.MirrorExpand)
