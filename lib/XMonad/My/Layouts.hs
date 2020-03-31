@@ -56,7 +56,7 @@ layout
               }
 
     baseLeft
-      = XL.Tall 1 (3/100) 0.75
+      = ResizableTile.ResizableTall 1 (3/100) 0.75 []
 
     baseRight
       = Reflect.reflectHoriz baseLeft
