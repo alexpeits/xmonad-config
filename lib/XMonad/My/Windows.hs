@@ -2,10 +2,8 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Windows where
 
-import           XMonad                      ( composeAll, className
-                                             , doShift, doIgnore, (=?)
-                                             , (-->)
-                                             )
+import           XMonad
+
 import qualified XMonad.StackSet             as W
 
 import           XMonad.Hooks.ManageHelpers  (doFloatAt)
@@ -15,22 +13,13 @@ import           XMonad.Util.NamedScratchpad (customFloating)
 nWorkspace :: [String] -> Int -> String
 nWorkspace ws i = ws !! (i - 1)
 
-moveWindows wsp
+moveWindows _wsp
   = composeAll
-      [ className =? "Emacs"              --> doShift (nWorkspace wsp 3)
-      -- , className =? "Slack"              --> doShift (nWorkspace wsp 4)
-      -- , className =? "Skype"              --> doShift (nWorkspace wsp 4)
-      -- , className =? "Pidgin"             --> doShift (nWorkspace wsp 4)
-      , className =? "vlc"                --> doShift (nWorkspace wsp 5)
-      , className =? "Spotify"            --> doShift (nWorkspace wsp 5)
-      , className =? "spotify"            --> doShift (nWorkspace wsp 5)
-      , className =? "VirtualBox"         --> doShift (nWorkspace wsp 6)
-      , className =? "VirtualBox Manager" --> doShift (nWorkspace wsp 6)
-      , className =? "Gnome-calculator"   --> smallRectTR
-      , className =? "Indicator.py"       --> doFloatAt 0.43 0.43
-      , className =? "Zenity"             --> doFloatAt 0.43 0.43
-      , className =? "Gsimplecal"         --> doFloatAt 0.815 0.022
-      , className =? "stalonetray"        --> doIgnore
+      [ className =? "Gnome-calculator" --> smallRectTR
+      , className =? "Indicator.py"     --> doFloatAt 0.43 0.43
+      , className =? "Zenity"           --> doFloatAt 0.43 0.43
+      , className =? "Gsimplecal"       --> doFloatAt 0.815 0.022
+      , className =? "stalonetray"      --> doIgnore
       ]
 
 -- myTopMargin = 28 / 2160
