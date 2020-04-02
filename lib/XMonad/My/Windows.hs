@@ -20,16 +20,17 @@ moveWindows _wsp
       , className =? "Zenity"           --> doFloatAt 0.43 0.43
       , className =? "Gsimplecal"       --> doFloatAt 0.815 0.022
       , className =? "stalonetray"      --> doIgnore
+      , className =? "Xfce4-notifyd"    --> doIgnore
       ]
 
 -- myTopMargin = 28 / 2160
 myTopMargin = 0
 
-middleRR w h   = W.RationalRect ((1 - w) / 2) ((1 - h) / 2) w h
+middleRR   w h = W.RationalRect ((1 - w) / 2) ((1 - h) / 2) w h
 topRightRR w h = W.RationalRect (1 - w) myTopMargin w h
-topLeftRR w h  = W.RationalRect 0 myTopMargin w h
+topLeftRR  w h = W.RationalRect 0 myTopMargin w h
 botRightRR w h = W.RationalRect (1 - w) (1 - h) w h
-botLeftRR w h  = W.RationalRect 0 (1 - h) w h
+botLeftRR  w h = W.RationalRect 0 (1 - h) w h
 dropDownRR w h = W.RationalRect 0 myTopMargin w h
 
 largeRectM  = customFloating $ middleRR 0.8 0.8
