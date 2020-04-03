@@ -59,6 +59,7 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. shiftMask, xK_g), GS.goToSelected def)
   -- screenshots
   , ((modMask .|. controlMask .|. shiftMask, xK_p), Util.getScreenshot)
+  , ((modMask, xK_Print), Util.getScreenshot)
 
   -- scratchpads
   , ((0, xK_F12), Scratch.actions "dropTerm")
