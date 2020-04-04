@@ -11,7 +11,7 @@ import           XMonad.Operations                (windows)
 import qualified XMonad.Actions.CopyWindow        as CopyWindow
 import qualified XMonad.Actions.CycleWS           as Cycle
 import qualified XMonad.Actions.GridSelect        as GS
-import           XMonad.Actions.WindowBringer     (gotoMenuArgs')
+import           XMonad.Actions.WindowBringer     (gotoMenuArgs', bringMenuArgs')
 import           XMonad.Hooks.ManageDocks         (ToggleStruts(..))
 import qualified XMonad.Layout.Maximize           as Maximize
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
@@ -53,12 +53,11 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   -- launcher
   , ((modMask, xK_p), spawn launcher)
-  -- window select
-  , ((modMask .|. shiftMask, xK_p) , gotoMenuArgs' "rofi" rofiGoToWinArgs)
-  -- grid select
-  , ((modMask .|. shiftMask, xK_g), GS.goToSelected def)
+  -- window select & bring
+  , ((modMask .|. shiftMask, xK_p) , gotoMenuArgs' "rofi" (rofiDmenuArgs "Go to window"))
+  , ((modMask .|. controlMask .|. shiftMask, xK_p), bringMenuArgs' "rofi" (rofiDmenuArgs "Bring window"))
   -- screenshots
-  , ((modMask .|. controlMask .|. shiftMask, xK_p), Util.getScreenshot)
+  , ((modMask .|. shiftMask, xK_s), Util.getScreenshot)
   , ((modMask, xK_Print), Util.getScreenshot)
 
   -- scratchpads
@@ -151,9 +150,9 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
 getKeys cfg x = M.union (M.fromList (customKeys cfg x)) (X.keys def x)
 
-rofiGoToWinArgs =
+rofiDmenuArgs prompt =
   [ "-dmenu"
-  , "-i", "-p", "Go to window"
+  , "-i", "-p", prompt
   , "-matching", "fuzzy", "-no-levenshtein-sort", "-sort"
   , "-theme", "lb"
   ]
