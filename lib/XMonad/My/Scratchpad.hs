@@ -1,61 +1,44 @@
-{-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Scratchpad where
 
-import           XMonad                      (className, (=?), stringProperty)
+import           XMonad (X, className, title, stringProperty, (=?))
 
 import qualified XMonad.Util.NamedScratchpad as NS
 
-import           XMonad.My.Windows
+import qualified XMonad.My.Windows as W
 
 
+getScratch :: String -> X ()
+getScratch
+  = NS.namedScratchpadAction scratchpads
+
+scratchpads :: [NS.NamedScratchpad]
 scratchpads =
   [ NS.NS
-      "scratch"
-      "gedit --class=Scratch ~/.scratch.txt"
-      (className =? "Scratch")
-      smallRectBR
+      "firefox"
+      "firefox --new-instance --class firefox-sp -P Simple"
+      (className =? "firefox-sp")
+      W.medRectBR
   , NS.NS
-      "docs"
-      firefoxDocs
-      (className =? "Docs")
-      medRectBR
+      "emacs"
+      "emacs --name emacs-sp"
+      (title =? "emacs-sp")
+      W.medRectM
   , NS.NS
-      "centerChrome"
-      chrome
-      (className =? "centerChrome")
-      medRectM
+      "terminal-dropdown"
+      "gnome-terminal --role=terminal-dropdown-sp"
+      (role =? "terminal-dropdown-sp")
+      W.dropDown
   , NS.NS
-      "dropTerm"
-      "gnome-terminal --role=dropTerm"
-      (role =? "dropTerm")
-      dropDown
+      "terminal"
+      "gnome-terminal --role=terminal-sp"
+      (role =? "terminal-sp")
+      W.smallRectM
   , NS.NS
-      "centerTerm"
-      "gnome-terminal --role=centerTerm"
-      (role =? "centerTerm")
-      smallRectM
-  , NS.NS
-      "files"
-      "nautilus --new-window --class=nautilusScratch"
-      (className =? "nautilusScratch")
-      medRectM
+      "nautilus"
+      "nautilus --new-window --class=nautilus-sp"
+      (className =? "nautilus-sp")
+      W.medRectM
   ]
-  where role  = stringProperty "WM_WINDOW_ROLE"
-        -- title = stringProperty "WM_NAME"
+  where
+    role  = stringProperty "WM_WINDOW_ROLE"
 
-actions = NS.namedScratchpadAction scratchpads
-
-firefoxDocs = unwords
-  [ "firefox"
-  , "--new-instance --class Docs -P Simple"
-  , "https://hoogle.haskell.org"
-  , "https://www.haskell.org/hoogle"
-  , "https://pursuit.purescript.org"
-  ]
-
-chrome = unwords
-  [ "google-chrome-stable"
-  , "--new-window"
-  , "--user-data-dir=/tmp/tmp-chrome"
-  , "--class=centerChrome"
-  ]

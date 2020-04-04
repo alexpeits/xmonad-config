@@ -62,11 +62,11 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask, xK_Print), Util.getScreenshot)
 
   -- scratchpads
-  , ((0, xK_F12), Scratch.actions "dropTerm")
-  , ((modMask, xK_F12), Scratch.actions "centerTerm")
-  , ((modMask .|. shiftMask, xK_n), Scratch.actions "scratch")
-  , ((modMask .|. shiftMask, xK_d), Scratch.actions "docs")
-  , ((modMask .|. shiftMask, xK_b), Scratch.actions "files")
+  , ((0, xK_F12), Scratch.getScratch "terminal-dropdown")
+  , ((modMask, xK_F12), Scratch.getScratch "terminal")
+  , ((modMask, xK_F8), Scratch.getScratch "emacs")
+  , ((modMask .|. shiftMask, xK_d), Scratch.getScratch "firefox")
+  , ((modMask .|. shiftMask, xK_b), Scratch.getScratch "nautilus")
 
   -- toggle xmobar
   , ((modMask .|. shiftMask, xK_f), sendMessage ToggleStruts)
