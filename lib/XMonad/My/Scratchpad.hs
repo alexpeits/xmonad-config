@@ -20,7 +20,16 @@ scratchpads =
       W.medRectBR
   , NS.NS
       "emacs"
-      "emacs --name emacs-sp"
+      ( unwords
+          [ "emacs --name emacs-sp"
+          , "--eval '(progn"
+          , "(persp-switch \"elfeed\")"
+          , "(elfeed)"
+          , "(persp-switch \"main\")"
+          , "(bookmark-jump \"shared-notes\")"
+          , ")'"
+          ]
+      )
       (title =? "emacs-sp")
       W.medRectM
   , NS.NS
