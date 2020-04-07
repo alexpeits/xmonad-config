@@ -26,7 +26,9 @@ import qualified XMonad.Layout.StackTile          as StackTile
 import qualified XMonad.Layout.Tabbed             as Tabbed
 import qualified XMonad.Layout.ToggleLayouts      as ToggleLayouts
 
-layout
+import qualified XMonad.My.Config                 as Cfg
+
+layout cfg
   = avoidStruts $ tall ||| focus ||| tabbed
   where
     tall
@@ -100,9 +102,9 @@ layout
           = def { NoFrills.inactiveBorderColor   = "#002b36"
                 , NoFrills.inactiveColor         = "#002b36"
                 , NoFrills.inactiveTextColor     = "#002b36"
-                , NoFrills.activeBorderColor     = "#268bd2"
-                , NoFrills.activeColor           = "#268bd2"
-                , NoFrills.activeTextColor       = "#268bd2"
+                , NoFrills.activeBorderColor     = Cfg.focusedBorderColor cfg
+                , NoFrills.activeColor           = Cfg.focusedBorderColor cfg
+                , NoFrills.activeTextColor       = Cfg.focusedBorderColor cfg
                 , NoFrills.decoHeight            = 7
                 }
 

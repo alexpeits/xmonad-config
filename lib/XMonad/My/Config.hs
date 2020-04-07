@@ -36,7 +36,8 @@ defaultConfig
       , useXmobar          = False
       , borderWidth        = 2
       , normalBorderColor  = "#27444c"
-      , focusedBorderColor = "#268bd2"
+      -- , focusedBorderColor = "#268bd2"
+      , focusedBorderColor = "#02ADC3"
       , windowView         = GreedyView
       }
 

@@ -72,14 +72,14 @@ main = do
         = manageDocks
         <+> My.Windows.moveWindows wsp
         <+> composeOne
-          [ isDialog -?> (doCenterFloat >> insertPosition Above Newer)
+          [ isDialog -?> doCenterFloat
           , stringProperty "WM_WINDOW_ROLE" =? "pop-up" -?> doCenterFloat
           , transience -- Move transient windows to their parent.
           , pure True -?> insertPosition Below Newer
           ]
         <+> namedScratchpadManageHook My.Scratchpad.scratchpads
     , startupHook        = spawn "xfce4-panel --restart"
-    , layoutHook         = smartBorders My.Layouts.layout
+    , layoutHook         = smartBorders (My.Layouts.layout cfg)
     , handleEventHook    = handleEventHook def <+> docksEventHook
     -- , logHook            = myLogHook
     }
