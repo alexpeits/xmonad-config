@@ -37,7 +37,7 @@ defaultConfig
       , borderWidth        = 2
       , normalBorderColor  = "#27444c"
       -- , focusedBorderColor = "#268bd2"
-      , focusedBorderColor = "#02ADC3"
+      , focusedBorderColor = "#159eb0"
       , windowView         = GreedyView
       }
 
