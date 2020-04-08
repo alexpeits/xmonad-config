@@ -23,6 +23,7 @@ data Config
       , borderWidth        :: Word32
       , normalBorderColor  :: String
       , focusedBorderColor :: String
+      , tabColor           :: String
       , topBarHeight       :: Word32
       , windowView         :: WindowView
       }
@@ -36,8 +37,9 @@ defaultConfig
       , hasMediaKeys       = True
       , useXmobar          = False
       , borderWidth        = 2
-      , normalBorderColor  = "#27444c"
-      , focusedBorderColor = "#159eb0"
+      , normalBorderColor  = "#234540"
+      , focusedBorderColor = "#259488"
+      , tabColor           = "#246156"
       , topBarHeight       = 7
       , windowView         = GreedyView
       }

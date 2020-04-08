@@ -28,6 +28,8 @@ import qualified XMonad.Layout.ToggleLayouts      as ToggleLayouts
 
 import qualified XMonad.My.Config                 as Cfg
 
+inactiveColor = "#002b36"
+
 layout cfg
   = avoidStruts $ tall ||| focus ||| tabbed
   where
@@ -52,10 +54,10 @@ layout cfg
       where
         tabTheme
           = def
-              { Tabbed.activeColor         = "#245361"
-              , Tabbed.activeBorderColor   = "#245361"
-              , Tabbed.inactiveColor       = "#091f2e"
-              , Tabbed.inactiveBorderColor = "#245361"
+              { Tabbed.activeColor         = Cfg.tabColor cfg
+              , Tabbed.activeBorderColor   = Cfg.tabColor cfg
+              , Tabbed.inactiveColor       = inactiveColor
+              , Tabbed.inactiveBorderColor = Cfg.tabColor cfg
               , Tabbed.fontName            = "xft:Monospace:size=8"
               , Tabbed.decoHeight          = 18
               }
@@ -99,9 +101,9 @@ layout cfg
       = NoFrills.noFrillsDeco Deco.shrinkText topBarTheme
       where
         topBarTheme
-          = def { NoFrills.inactiveBorderColor   = "#002b36"
-                , NoFrills.inactiveColor         = "#002b36"
-                , NoFrills.inactiveTextColor     = "#002b36"
+          = def { NoFrills.inactiveBorderColor   = inactiveColor
+                , NoFrills.inactiveColor         = inactiveColor
+                , NoFrills.inactiveTextColor     = inactiveColor
                 , NoFrills.activeBorderColor     = Cfg.focusedBorderColor cfg
                 , NoFrills.activeColor           = Cfg.focusedBorderColor cfg
                 , NoFrills.activeTextColor       = Cfg.focusedBorderColor cfg
