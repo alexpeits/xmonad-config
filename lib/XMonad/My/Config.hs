@@ -23,6 +23,7 @@ data Config
       , borderWidth        :: Word32
       , normalBorderColor  :: String
       , focusedBorderColor :: String
+      , topBarHeight       :: Word32
       , windowView         :: WindowView
       }
 
@@ -36,8 +37,8 @@ defaultConfig
       , useXmobar          = False
       , borderWidth        = 2
       , normalBorderColor  = "#27444c"
-      -- , focusedBorderColor = "#268bd2"
       , focusedBorderColor = "#159eb0"
+      , topBarHeight       = 7
       , windowView         = GreedyView
       }
 
@@ -50,6 +51,7 @@ work
   = defaultConfig
       { screensaver  = "xscreensaver-command -lock"
       , hasMediaKeys = False
+      , topBarHeight = 10
       , windowView   = View
       }
 

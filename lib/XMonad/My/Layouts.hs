@@ -105,7 +105,7 @@ layout cfg
                 , NoFrills.activeBorderColor     = Cfg.focusedBorderColor cfg
                 , NoFrills.activeColor           = Cfg.focusedBorderColor cfg
                 , NoFrills.activeTextColor       = Cfg.focusedBorderColor cfg
-                , NoFrills.decoHeight            = 7
+                , NoFrills.decoHeight            = Cfg.topBarHeight cfg
                 }
 
     withMaximize
