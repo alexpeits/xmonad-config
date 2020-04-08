@@ -5,7 +5,7 @@ import Network.HostName (HostName)
 
 configs :: [(HostName, Config)]
 configs
-  = [ ("nixos", home)
+  = [ ("seabeast", home)
     , ("trilobite", work)
     ]
 
