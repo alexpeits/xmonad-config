@@ -37,9 +37,9 @@ defaultConfig
       , hasMediaKeys       = True
       , useXmobar          = False
       , borderWidth        = 2
-      , normalBorderColor  = "#234540"
-      , focusedBorderColor = "#259488"
-      , tabColor           = "#246156"
+      , normalBorderColor  = "#27444c"
+      , focusedBorderColor = "#268bd2"
+      , tabColor           = "#245361"
       , topBarHeight       = 7
       , windowView         = GreedyView
       }
