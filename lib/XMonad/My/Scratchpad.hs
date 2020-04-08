@@ -25,8 +25,11 @@ scratchpads =
           , "--eval '(progn"
           , "(persp-switch \"elfeed\")"
           , "(elfeed)"
+          , "(persp-switch \"config\")"
+          , "(find-file \"~/.emacs.d/configuration.org\")"
           , "(persp-switch \"main\")"
           , "(bookmark-jump \"shared-notes\")"
+          , "(persp-rename \"notes\")"
           , ")'"
           ]
       )
