@@ -1,14 +1,16 @@
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE MultiWayIf      #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 module XMonad.My.Windows where
 
-import           XMonad
+import qualified Data.Map                    as M
+import           Data.Word                   (Word32)
 
+import           XMonad
 import qualified XMonad.StackSet             as W
 
 import           XMonad.Hooks.ManageHelpers  (doFloatAt)
-
 import           XMonad.Util.NamedScratchpad (customFloating)
+
 
 nWorkspace :: [String] -> Int -> String
 nWorkspace ws i = ws !! (i - 1)
@@ -41,3 +43,51 @@ smallRectM  = customFloating $ middleRR 0.45 0.55
 smallRectTR = customFloating $ topRightRR 0.25 0.3
 smallRectBR = customFloating $ botRightRR 0.3 0.4
 dropDown    = customFloating $ dropDownRR 1 0.35
+
+isFloatQ :: Query Bool
+isFloatQ = ask >>= \w -> (liftX . gets) (M.member w . W.floating . windowset)
+
+cycleCorner :: Window -> X ()
+cycleCorner w = do
+  isFloat <- runQuery isFloatQ w
+  if isFloat then go else pure ()
+  where
+    go = withDisplay $ \d -> do
+      border <- asks (fromIntegral . borderWidth . config)
+      scrRect <- gets (screenRect . W.screenDetail . W.current . windowset)
+      wa <- io $ getWindowAttributes d w
+      let
+        clamp lim a
+          | a < 0     = 0
+          | a > lim   = lim
+          | otherwise = a
+
+        clampW = clamp sw
+        clampH = clamp sh
+
+        wx = fromIntegral $ wa_x wa
+        wy = fromIntegral $ wa_y wa
+
+        ww = fromIntegral $ wa_width wa
+        wh = fromIntegral $ wa_height wa
+
+        sw = fromIntegral $ rect_width scrRect
+        sh = fromIntegral $ rect_height scrRect
+
+        bw = 2 * border
+
+        topLeft  = (0, 0)
+        topRight = (clampW $ sw - ww - bw, 0)
+        botLeft  = (0, clampH $ sh - wh - bw)
+        botRight = (clampW $ sw - ww - bw, clampH $ sh - wh - bw)
+
+        (newX, newY)
+          = if
+          | (wx, wy) == botRight -> botLeft
+          | (wx, wy) == botLeft  -> topLeft
+          | (wx, wy) == topLeft  -> topRight
+          | otherwise            -> botRight
+
+      io $ moveWindow d w newX newY
+
+      float w

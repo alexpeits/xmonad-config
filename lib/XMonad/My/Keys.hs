@@ -24,6 +24,7 @@ import qualified XMonad.StackSet                  as W
 import qualified XMonad.My.Config                 as Cfg
 import qualified XMonad.My.Scratchpad             as Scratch
 import qualified XMonad.My.Util                   as Util
+import qualified XMonad.My.Windows                as Windows
 
 import           Graphics.X11.ExtraTypes.XF86
 
@@ -50,6 +51,9 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- copy current win to all ws or kill other copies
   -- NOTE: doesn't really work with multiple monitors
   , ((modMask, xK_r), copyToAllOrKillOther)
+
+  -- float a window and cycle its position to the screen corners
+  , ((modMask, xK_f), withFocused Windows.cycleCorner)
 
   -- launcher
   , ((modMask, xK_p), spawn launcher)
