@@ -33,7 +33,7 @@ defaultConfig
   = Config
       { terminal           = "gnome-terminal"
       , launcher           = rofiLauncher
-      , screensaver        = "i3lock-fancy -p"
+      , screensaver        = "i3lock-wrap"
       , hasMediaKeys       = True
       , useXmobar          = False
       , borderWidth        = 2
