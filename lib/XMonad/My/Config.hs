@@ -59,6 +59,6 @@ work
 
 rofiLauncher = unwords
   [ "rofi -modi drun,run -show drun"
-  , "-matching fuzzy -no-levenshtein-sort -sort"
+  , "-matching fuzzy -sorting-method fzf -sort"
   , "-theme lb -show-icons -kb-mode-next Alt+m"
   ]

@@ -3,6 +3,7 @@
 module XMonad.My.Keys where
 
 import qualified Data.Map                         as M
+import qualified System.Exit                      as Sys
 
 import qualified XMonad                           as X
 import           XMonad                           hiding (workspaces, terminal, keys)
@@ -75,9 +76,9 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. shiftMask, xK_f), sendMessage ToggleStruts)
 
   -- brightness up
-  , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 5%")
+  , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 5+")
   -- brightness down
-  , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 5%")
+  , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5-")
 
   -- reflect horizontally
   , ((modMask , xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTX)
@@ -95,19 +96,25 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask, xK_o), Cycle.nextScreen)
   , ((modMask .|. shiftMask, xK_o), Cycle.shiftNextScreen)
 
-  , ((modMask .|. shiftMask, xK_q), spawn "xfce4-session-logout")
+  -- , ((modMask .|. shiftMask, xK_q), spawn "xfce4-session-logout")
+  -- , ((modMask .|. shiftMask, xK_q), io (Sys.exitWith Sys.ExitSuccess))
+  , ((modMask .|. shiftMask, xK_q), spawn "~/bin/session-quit")
 
   , ((modMask .|. controlMask .|. shiftMask, xK_j), windows W.swapDown >> windows W.focusUp)
   , ((modMask .|. controlMask .|. shiftMask, xK_k), windows W.swapUp >> windows W.focusDown)
 
   -- media keys
   , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
-  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 5%-")
-  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
+  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 3%-")
+  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 3%+")
   , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
   , ((0, xF86XK_AudioNext), spawn "playerctl next")
   , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
   , ((0, xF86XK_AudioStop), spawn "playerctl stop")
+
+  -- temporary
+  , ((mod1Mask, xK_F11), spawn "~/bin/screen-layout.sh --auto")
+  , ((mod1Mask, xK_F12), spawn "systemctl --user restart keyboard")
 
   ]
 
@@ -133,8 +140,8 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
          -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
          -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
          -- laptop + bluetooth = disaster
-           ((modMask .|. controlMask, xK_F2), spawn "amixer -q set Master 5%-")
-         , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Master 5%+")
+           ((modMask .|. controlMask, xK_F2), spawn "amixer -q set Master 3%-")
+         , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Master 3%+")
          , ((0, xF86XK_AudioMicMute), spawn "amixer -q set Capture toggle")
          , ((modMask, xK_F2), spawn "playerctl previous")
          , ((modMask, xK_F3), spawn "playerctl play-pause")
@@ -144,9 +151,9 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
          , ((modMask, xK_F6), spawn "xbacklight -inc 1")
          ]
 
-    else [ ((modMask, xK_F2), spawn "amixer -D pulse set Master 5%-")
+    else [ ((modMask, xK_F2), spawn "amixer -D pulse set Master 3%-")
          , ((modMask, xK_F3), spawn "amixer -D pulse set Master 1+ toggle")
-         , ((modMask, xK_F4), spawn "amixer -D pulse set Master 5%+")
+         , ((modMask, xK_F4), spawn "amixer -D pulse set Master 3%+")
          , ((modMask .|. controlMask, xK_F2), spawn "playerctl previous")
          , ((modMask .|. controlMask, xK_F3), spawn "playerctl play-pause")
          , ((modMask .|. controlMask, xK_F4), spawn "playerctl next")
@@ -157,6 +164,6 @@ getKeys cfg x = M.union (M.fromList (customKeys cfg x)) (X.keys def x)
 rofiDmenuArgs prompt =
   [ "-dmenu"
   , "-i", "-p", prompt
-  , "-matching", "fuzzy", "-no-levenshtein-sort", "-sort"
+  , "-matching", "fuzzy", "-sorting-method", "fzf", "-sort"
   , "-theme", "lb"
   ]

@@ -20,7 +20,6 @@ moveWindows _wsp
       [ className =? "Gnome-calculator" --> smallRectTR
       , className =? "Indicator.py"     --> doFloatAt 0.43 0.43
       , className =? "Zenity"           --> doFloatAt 0.43 0.43
-      , className =? "Gsimplecal"       --> doFloatAt 0.815 0.022
       , className =? "Gcolor3"          --> doFloat
       , className =? "stalonetray"      --> doIgnore
       , className =? "Xfce4-notifyd"    --> doIgnore

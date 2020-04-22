@@ -5,10 +5,9 @@ import           System.IO                   (hPutStrLn)
 import           Network.HostName            (getHostName)
 
 import           XMonad
-import           XMonad.Config.Xfce          (xfceConfig)
 
 import qualified XMonad.Hooks.DynamicLog     as DL
-import           XMonad.Hooks.EwmhDesktops   (ewmh)
+-- import           XMonad.Hooks.EwmhDesktops   (ewmh)
 import           XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
 import           XMonad.Hooks.ManageDocks    (manageDocks, docksEventHook)
 import           XMonad.Hooks.ManageHelpers  (composeOne, isDialog, (-?>), doCenterFloat, transience)
@@ -17,6 +16,7 @@ import           XMonad.Layout.Fullscreen    (fullscreenSupport)
 import           XMonad.Layout.NoBorders     (smartBorders)
 
 import           XMonad.Util.NamedScratchpad (namedScratchpadManageHook)
+import           XMonad.Util.Run             (spawnPipe)
 
 import qualified XMonad.My.Config            as My.Cfg
 import qualified XMonad.My.Keys              as My.Keys
@@ -25,9 +25,9 @@ import qualified XMonad.My.Scratchpad        as My.Scratchpad
 import qualified XMonad.My.Windows           as My.Windows
 import qualified XMonad.My.Workspaces        as My.Workspaces
 
-xmobarPanel process = DL.dynamicLogWithPP $ DL.xmobarPP
+xmobarLogHook process = DL.dynamicLogWithPP $ DL.xmobarPP
   { DL.ppOutput  = hPutStrLn process
-  , DL.ppTitle   = DL.xmobarColor "#d58966" "" . DL.shorten 100
+  , DL.ppTitle   = DL.xmobarColor "#d58966" "" . DL.shorten 60
   , DL.ppCurrent = DL.xmobarColor "#2ec8a2" "" . DL.wrap "[" "]"
   , DL.ppVisible = DL.xmobarColor "#3b7887" "" . DL.wrap "(" ")"
   , DL.ppHidden  = \ws -> if ws == "NSP" then "" else ws
@@ -54,11 +54,9 @@ main = do
   let
     wsp
       = My.Workspaces.workspaces
-    -- myLogHook =
-      -- when (My.Cfg.useXmobar cfg) $
-        -- spawnPipe "xmobar ~/.xmonad/xmobar.hs" >>= xmobarPanel
 
-  xmonad $ fullscreenSupport $ ewmh $ xfceConfig
+  xmobarProc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
+  xmonad $ fullscreenSupport $ def -- $ ewmh $
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
     , clickJustFocuses   = False
@@ -78,8 +76,8 @@ main = do
           , pure True -?> insertPosition Below Newer
           ]
         <+> namedScratchpadManageHook My.Scratchpad.scratchpads
-    , startupHook        = spawn "xfce4-panel --restart"
+    -- , startupHook        = spawn "xfce4-panel --restart"
     , layoutHook         = smartBorders (My.Layouts.layout cfg)
     , handleEventHook    = handleEventHook def <+> docksEventHook
-    -- , logHook            = myLogHook
+    , logHook            = xmobarLogHook xmobarProc
     }

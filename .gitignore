@@ -1,4 +1,5 @@
 xmonad-*-linux
+xmobar
 *.errors
 *.hi
 *.o

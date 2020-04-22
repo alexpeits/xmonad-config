@@ -19,6 +19,7 @@ import qualified XMonad.Layout.Dwindle            as Dwindle
 import qualified XMonad.Layout.Maximize           as Maximize
 import           XMonad.Layout.MultiToggle        ((??))
 import qualified XMonad.Layout.MultiToggle        as MultiToggle
+import           XMonad.Layout.Named              (named)
 import qualified XMonad.Layout.NoFrillsDecoration as NoFrills
 import qualified XMonad.Layout.Reflect            as Reflect
 import qualified XMonad.Layout.ResizableTile      as ResizableTile
@@ -34,23 +35,28 @@ layout cfg
   = avoidStruts $ tall ||| focus ||| tabbed
   where
     tall
-      = tiled
+      = named "tall"
+      $ tiled
       $ ResizableTile.ResizableTall 1 (3/100) 0.5 []
 
     focus
-      = tiled
+      = named "focus"
+      $ tiled
       $ XL.Mirror baseLeft
 
     stackTile
-      = tiled
+      = named "stack"
+      $ tiled
       $ StackTile.StackTile 2 (3/100) 0.7
 
     spiralRight
-      = tiled
+      = named "spiral"
+      $ tiled
       $ Dwindle.Dwindle Dwindle.L Dwindle.CCW 2.75 1.07
 
     tabbed
-      = Tabbed.tabbed Deco.shrinkText tabTheme
+      = named "tab"
+      $ Tabbed.tabbed Deco.shrinkText tabTheme
       where
         tabTheme
           = def
