@@ -104,18 +104,18 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. controlMask .|. shiftMask, xK_k), windows W.swapUp >> windows W.focusDown)
 
   -- media keys
-  , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
-  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 3%-")
-  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 3%+")
+  , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle && ~/bin/show-volume.sh")
+  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 3%- && ~/bin/show-volume.sh")
+  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 3%+ && ~/bin/show-volume.sh")
   , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
   , ((0, xF86XK_AudioNext), spawn "playerctl next")
   , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
   , ((0, xF86XK_AudioStop), spawn "playerctl stop")
 
   -- temporary
+  , ((modMask, xK_equal), spawn "PATH=~/bin:$PATH ~/bin/contrall.sh")
   , ((mod1Mask, xK_F11), spawn "~/bin/screen-layout.sh --auto")
   , ((mod1Mask, xK_F12), spawn "systemctl --user restart keyboard")
-
   ]
 
   ++

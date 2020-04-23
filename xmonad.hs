@@ -26,13 +26,13 @@ import qualified XMonad.My.Windows           as My.Windows
 import qualified XMonad.My.Workspaces        as My.Workspaces
 
 xmobarLogHook process = DL.dynamicLogWithPP $ DL.xmobarPP
-  { DL.ppOutput  = hPutStrLn process
-  , DL.ppTitle   = DL.xmobarColor "#d58966" "" . DL.shorten 60
-  , DL.ppCurrent = DL.xmobarColor "#2ec8a2" "" . DL.wrap "[" "]"
-  , DL.ppVisible = DL.xmobarColor "#3b7887" "" . DL.wrap "(" ")"
+  { DL.ppOutput  = hPutStrLn process . (" " ++)
+  , DL.ppTitle   = DL.xmobarColor "#D08770" "" . DL.shorten 60
+  , DL.ppCurrent = DL.xmobarColor "#A3BE8C" "" . DL.wrap "[" "]"
+  , DL.ppVisible = DL.xmobarColor "#88C0D0" "" . DL.wrap "(" ")"
   , DL.ppHidden  = \ws -> if ws == "NSP" then "" else ws
-  , DL.ppSep     = DL.xmobarColor "#676767" "" " | "
-  , DL.ppLayout  = DL.xmobarColor "#676767" ""
+  , DL.ppSep     = DL.xmobarColor "#5e7591" "" " | "
+  , DL.ppLayout  = DL.xmobarColor "#5e7591" ""
   , DL.ppUrgent  = DL.xmobarColor "red" "yellow"
   }
 
@@ -56,7 +56,7 @@ main = do
       = My.Workspaces.workspaces
 
   xmobarProc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
-  xmonad $ fullscreenSupport $ def -- $ ewmh $
+  xmonad $ fullscreenSupport $ def
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
     , clickJustFocuses   = False

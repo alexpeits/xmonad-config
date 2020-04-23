@@ -1,56 +1,62 @@
 Config {
-    font = "xft:Iosevka Term SS02:size=11.5",
-    bgColor = "#252525",
-    fgColor = "#95c2be",
-    border = FullB,
-    borderWidth = 2,
-    borderColor = "#252525",
-    position = TopSize L 94 25,
-    commands = [
-        Run Cpu [
-          "-t", "cpu <total>",
-          "-L", "10",
-          "-H", "60",
-          "--normal", "#2bc9a2",
-          "--high", "#e44439",
-          "-S", "True"
-        ] 5,
-        Run Memory [
-          "-t", "mem <usedratio>",
-          "-L", "10",
-          "-H", "60",
-          "--normal", "#2bc9a2",
-          "--high", "#e44439",
-          "-S", "true"
-        ] 5,
-        Run Date "%a %b %d %H:%M" "date" 5,
-        Run Kbd [("us", "us"), ("gr", "gr")],
-        Run Volume "default" "Master" [
-            "-t", "vol <volume> <status>",
-            "-S", "True",
-            "--",
-            "-O", "",
-            "-o", "[x] ",
-            "-c", "#e44439"
-        ] 5,
-        Run Battery [
-            "-t", "bat <left> <acstatus>",
-            "-L", "15",
-            "-H", "70",
-            "--low", "#dc7747",
-            "--normal", "#2894b5",
-            "--high", "#2bc9a2",
-            "--",
-            "-f", "ACAD/online",
-            "-O", "ch",
-            "-o", "bt",
-            "-i", "ac",
-            "-P"
-        ] 10,
-        Run StdinReader
-    ],
-    sepChar = "%",
-    alignSep = "}{",
-    template = "%StdinReader% }{ %cpu% | %memory% | %kbd% | %default:Master%| %battery% | <action=`gsimplecal` button=1><fc=#53bcd6>%date%</fc></action> ",
-    lowerOnStart = True
+  font = "xft:Iosevka Term:size=11.5",
+  bgColor = "#272727",
+  fgColor = "#9fccc8",
+  border = FullB,
+  borderWidth = 2,
+  borderColor = "#272727",
+  position = TopSize L 95 25,
+  commands = [
+    Run StdinReader,
+    Run Com "bash" ["-c", "~/bin/song-info.sh spotify"] "spotify" 10,
+    Run Cpu [
+      "-t", "cpu <total>",
+      "-L", "10",
+      "-H", "60",
+      "--normal", "#A3BE8C",
+      "--high", "#BF616A",
+      "-S", "True",
+      "-m", "3", "-c", " ", "-a", "l"
+    ] 10,
+    Run Memory [
+      "-t", "mem <usedratio>",
+      "-L", "10",
+      "-H", "60",
+      "--normal", "#A3BE8C",
+      "--high", "#BF616A",
+      "-S", "true",
+      "-m", "3", "-c", " ", "-a", "l"
+    ] 10,
+    Run Volume "default" "Master" [
+      "-t", "vol <volume><status>",
+      "-S", "True",
+      "-m", "3", "-c", " ", "-a", "l",
+      "--",
+      "-O", "",
+      "-o", " [x]",
+      "-c", "#BF616A"
+    ] 5,
+    Run Battery [
+      "-t", "bat <left> <acstatus>",
+      "-L", "15",
+      "-H", "70",
+      "--low", "#BF616A",
+      "--normal", "#88C0D0",
+      "--high", "#A3BE8C",
+      "-m", "2", "-c", " ", "-a", "l",
+      "--",
+      "-f", "ACAD/online",
+      "-O", "<fc=#D08770>ch</fc>",
+      "-o", "bt",
+      "-i", "<fc=#EBCB8B>ac</fc>",
+      "-A", "15",
+      "-a", "notify-send -u critical 'Low battery'",
+      "-P"
+    ] 10,
+    Run Kbd [("us", "us"), ("gr", "gr")],
+    Run Date "%a %b %d %H:%M" "date" 5
+  ],
+  alignSep = "}{",
+  template = "%StdinReader% }{ <fc=#B48EAD>%spotify%</fc> <fc=#5e7591>|</fc> %cpu% <fc=#5e7591>|</fc> %memory% <fc=#5e7591>|</fc> %default:Master% <fc=#5e7591>|</fc> %battery% <fc=#5e7591>|</fc> %kbd% <fc=#5e7591>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
+  lowerOnStart = True
 }
