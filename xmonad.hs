@@ -7,7 +7,7 @@ import           Network.HostName            (getHostName)
 import           XMonad
 
 import qualified XMonad.Hooks.DynamicLog     as DL
--- import           XMonad.Hooks.EwmhDesktops   (ewmh)
+import           XMonad.Hooks.EwmhDesktops   (ewmh)
 import           XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
 import           XMonad.Hooks.ManageDocks    (manageDocks, docksEventHook)
 import           XMonad.Hooks.ManageHelpers  (composeOne, isDialog, (-?>), doCenterFloat, transience)
@@ -56,7 +56,7 @@ main = do
       = My.Workspaces.workspaces
 
   xmobarProc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
-  xmonad $ fullscreenSupport $ def
+  xmonad $ fullscreenSupport $ ewmh $ def
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
     , clickJustFocuses   = False

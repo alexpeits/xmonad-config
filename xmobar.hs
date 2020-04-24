@@ -38,7 +38,7 @@ Config {
     ] 5,
     Run Battery [
       "-t", "bat <left> <acstatus>",
-      "-L", "15",
+      "-L", "20",
       "-H", "70",
       "--low", "#BF616A",
       "--normal", "#88C0D0",
@@ -57,6 +57,6 @@ Config {
     Run Date "%a %b %d %H:%M" "date" 5
   ],
   alignSep = "}{",
-  template = "%StdinReader% }{ <fc=#B48EAD>%spotify%</fc> <fc=#5e7591>|</fc> %cpu% <fc=#5e7591>|</fc> %memory% <fc=#5e7591>|</fc> %default:Master% <fc=#5e7591>|</fc> %battery% <fc=#5e7591>|</fc> %kbd% <fc=#5e7591>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
+  template = "%StdinReader% }{ <action=`wmctrl -a spotify` button=1><fc=#B48EAD>%spotify%</fc></action> <fc=#5e7591>|</fc> %cpu% <fc=#5e7591>|</fc> %memory% <fc=#5e7591>|</fc> %default:Master% <fc=#5e7591>|</fc> %battery% <fc=#5e7591>|</fc> %kbd% <fc=#5e7591>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
   lowerOnStart = True
 }
