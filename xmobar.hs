@@ -1,7 +1,7 @@
 Config {
   font = "xft:Iosevka Term:size=11.5",
   bgColor = "#272727",
-  fgColor = "#9fccc8",
+  fgColor = "#afc7c5",
   border = FullB,
   borderWidth = 2,
   borderColor = "#272727",
@@ -49,14 +49,14 @@ Config {
       "-O", "<fc=#D08770>ch</fc>",
       "-o", "bt",
       "-i", "<fc=#EBCB8B>ac</fc>",
-      "-A", "15",
-      "-a", "notify-send -u critical 'Low battery'",
+      "-A", "5",
+      "-a", "dunstify -a 'history-ignore' -r 2345 -u critical 'Low battery'",
       "-P"
     ] 10,
     Run Kbd [("us", "us"), ("gr", "gr")],
     Run Date "%a %b %d %H:%M" "date" 5
   ],
   alignSep = "}{",
-  template = "%StdinReader% }{ <action=`wmctrl -a spotify` button=1><fc=#B48EAD>%spotify%</fc></action> <fc=#5e7591>|</fc> %cpu% <fc=#5e7591>|</fc> %memory% <fc=#5e7591>|</fc> %default:Master% <fc=#5e7591>|</fc> %battery% <fc=#5e7591>|</fc> %kbd% <fc=#5e7591>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
+  template = "%StdinReader% }{ <fc=#B48EAD>%spotify%</fc> <fc=#4f6b69>|</fc> %cpu% <fc=#4f6b69>|</fc> %memory% <fc=#4f6b69>|</fc> %default:Master% <fc=#4f6b69>|</fc> %battery% <fc=#4f6b69>|</fc> %kbd% <fc=#4f6b69>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
   lowerOnStart = True
 }

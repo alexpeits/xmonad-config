@@ -104,13 +104,13 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. controlMask .|. shiftMask, xK_k), windows W.swapUp >> windows W.focusDown)
 
   -- media keys
-  , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle && ~/bin/show-volume.sh")
-  , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q set Master 3%- && ~/bin/show-volume.sh")
-  , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 3%+ && ~/bin/show-volume.sh")
-  , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
-  , ((0, xF86XK_AudioNext), spawn "playerctl next")
-  , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
-  , ((0, xF86XK_AudioStop), spawn "playerctl stop")
+  , ((0, xF86XK_AudioMute), spawn $ volumeToggle +++ volumeShow)
+  , ((0, xF86XK_AudioLowerVolume), spawn $ volumeUnmute +++ volumeDown +++ volumeShow)
+  , ((0, xF86XK_AudioRaiseVolume), spawn $ volumeUnmute +++ volumeUp +++ volumeShow)
+  , ((0, xF86XK_AudioPrev), spawn playerPrevious)
+  , ((0, xF86XK_AudioNext), spawn playerNext)
+  , ((0, xF86XK_AudioPlay), spawn playerPlayPause)
+  , ((0, xF86XK_AudioStop), spawn playerStop)
 
   -- temporary
   , ((modMask, xK_equal), spawn "PATH=~/bin:$PATH ~/bin/contrall.sh")
@@ -133,33 +133,43 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
   ++
 
+  -- TODO
   if hasMediaKeys
 
-    -- then [ ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
     then [
-         -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
-         -- , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
-         -- laptop + bluetooth = disaster
-           ((modMask .|. controlMask, xK_F2), spawn "amixer -q set Master 3%-")
-         , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Master 3%+")
+           ((modMask .|. controlMask, xK_F2), spawn volumeDown)
+         , ((modMask .|. controlMask, xK_F4), spawn volumeUp)
          , ((0, xF86XK_AudioMicMute), spawn "amixer -q set Capture toggle")
-         , ((modMask, xK_F2), spawn "playerctl previous")
-         , ((modMask, xK_F3), spawn "playerctl play-pause")
-         , ((modMask, xK_F4), spawn "playerctl next")
-
-         , ((modMask, xK_F5), spawn "xbacklight -dec 1")
-         , ((modMask, xK_F6), spawn "xbacklight -inc 1")
+         , ((modMask, xK_F2), spawn playerPrevious)
+         , ((modMask, xK_F3), spawn playerPlayPause)
+         , ((modMask, xK_F4), spawn playerNext)
          ]
 
     else [ ((modMask, xK_F2), spawn "amixer -D pulse set Master 3%-")
          , ((modMask, xK_F3), spawn "amixer -D pulse set Master 1+ toggle")
          , ((modMask, xK_F4), spawn "amixer -D pulse set Master 3%+")
-         , ((modMask .|. controlMask, xK_F2), spawn "playerctl previous")
-         , ((modMask .|. controlMask, xK_F3), spawn "playerctl play-pause")
-         , ((modMask .|. controlMask, xK_F4), spawn "playerctl next")
+         , ((modMask .|. controlMask, xK_F2), spawn playerPrevious)
+         , ((modMask .|. controlMask, xK_F3), spawn playerPlayPause)
+         , ((modMask .|. controlMask, xK_F4), spawn playerNext)
          ]
 
 getKeys cfg x = M.union (M.fromList (customKeys cfg x)) (X.keys def x)
+
+volumeToggle = "amixer set Master toggle"
+volumeUnmute = "amixer set Master on"
+volumeDown = "amixer -q set Master 3%- && ~/bin/show-volume.sh"
+volumeUp = "amixer -q set Master 3%+ && ~/bin/show-volume.sh"
+volumeShow = "~/bin/show-volume.sh"
+
+playerctl = "playerctl -p spotify,vlc "
+playerPlayPause = playerctl <> "play-pause"
+playerStop = playerctl <> "stop"
+playerPrevious = playerctl <> "previous"
+playerNext = playerctl <> "next"
+
+(+++) :: String -> String -> String
+x +++ y = x ++ " && " ++ y
+infixr 5 +++
 
 rofiDmenuArgs prompt =
   [ "-dmenu"

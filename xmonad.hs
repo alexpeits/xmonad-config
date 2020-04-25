@@ -52,10 +52,10 @@ main = do
       pure My.Cfg.defaultConfig
 
   let
-    wsp
-      = My.Workspaces.workspaces
+    wsp = My.Workspaces.workspaces
+    xmobarConf = My.Cfg.xmobarConf cfg
 
-  xmobarProc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
+  xmobarProc <- spawnPipe $ "xmobar " ++ xmobarConf
   xmonad $ fullscreenSupport $ ewmh $ def
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False

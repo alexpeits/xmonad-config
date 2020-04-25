@@ -19,7 +19,7 @@ data Config
       , launcher           :: String
       , screensaver        :: String
       , hasMediaKeys       :: Bool
-      , useXmobar          :: Bool
+      , xmobarConf         :: String
       , borderWidth        :: Word32
       , normalBorderColor  :: String
       , focusedBorderColor :: String
@@ -35,7 +35,7 @@ defaultConfig
       , launcher           = rofiLauncher
       , screensaver        = "i3lock-wrap"
       , hasMediaKeys       = True
-      , useXmobar          = False
+      , xmobarConf         = "~/.xmonad/xmobar.hs"
       , borderWidth        = 2
       , normalBorderColor  = "#27444c"
       , focusedBorderColor = "#268bd2"
@@ -47,12 +47,15 @@ defaultConfig
 home :: Config
 home
   = defaultConfig
+      { xmobarConf = "~/.xmonad/xmobar.hs"
+      }
 
 work :: Config
 work
   = defaultConfig
       { screensaver  = "xscreensaver-command -lock"
       , hasMediaKeys = False
+      , xmobarConf   = "~/.xmonad/xmobar_nonlaptop.hs"
       , topBarHeight = 10
       , windowView   = View
       }
