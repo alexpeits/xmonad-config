@@ -1,5 +1,8 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# OPTIONS_GHC -Wunused-imports #-}
+import           Control.Monad               (unless)
+import           Data.Maybe                  (isNothing)
+import           System.Directory            (findExecutable)
 import           System.IO                   (hPutStrLn)
 
 import           Network.HostName            (getHostName)
@@ -36,6 +39,14 @@ xmobarLogHook process = DL.dynamicLogWithPP $ DL.xmobarPP
   , DL.ppUrgent  = DL.xmobarColor "red" "yellow"
   }
 
+xmessage :: [String] -> IO ()
+xmessage msg = do
+  bin <- findExecutable "xmessage"
+  unless (isNothing bin) $
+    spawn (unwords xmsg)
+  where
+    xmsg = ["xmessage '"] <> msg <> ["'"]
+
 main :: IO ()
 main = do
   hostname <- getHostName
@@ -43,11 +54,10 @@ main = do
   cfg <- case lookup hostname My.Cfg.configs of
     Just c -> pure c
     Nothing -> do
-      spawn $ unwords
-        [ "xmessage '"
-        , "No config found for host"
+      xmessage
+        [ "No config found for host"
         , hostname
-        , "- using default config.'"
+        , "- using default config."
         ]
       pure My.Cfg.defaultConfig
 
@@ -56,6 +66,7 @@ main = do
     xmobarConf = My.Cfg.xmobarConf cfg
 
   xmobarProc <- spawnPipe $ "xmobar " ++ xmobarConf
+
   xmonad $ fullscreenSupport $ ewmh $ def
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False

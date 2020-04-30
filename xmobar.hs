@@ -33,7 +33,7 @@ Config {
       "-m", "3", "-c", " ", "-a", "l",
       "--",
       "-O", "",
-      "-o", " [x]",
+      "-o", " x",
       "-c", "#BF616A"
     ] 5,
     Run Battery [
@@ -49,7 +49,7 @@ Config {
       "-O", "<fc=#D08770>ch</fc>",
       "-o", "bt",
       "-i", "<fc=#EBCB8B>ac</fc>",
-      "-A", "5",
+      "-A", "10",
       "-a", "dunstify -a 'history-ignore' -r 2345 -u critical 'Low battery'",
       "-P"
     ] 10,
