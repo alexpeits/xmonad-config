@@ -121,7 +121,7 @@ layout cfg
       => l Window
       -> Deco.ModifiedLayout Maximize.Maximize l Window
     withMaximize
-      = Maximize.maximizeWithPadding 10
+      = Maximize.maximizeWithPadding 0
 
     withReflect
       :: LayoutClass l a

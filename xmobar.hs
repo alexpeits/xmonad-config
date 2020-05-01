@@ -8,7 +8,7 @@ Config {
   position = TopSize L 95 25,
   commands = [
     Run StdinReader,
-    Run Com "bash" ["-c", "~/bin/song-info.sh spotify"] "spotify" 10,
+    Run Com "bash" ["-c", "~/bin/song-info.sh spotify,vlc"] "music" 10,
     Run Cpu [
       "-t", "cpu <total>",
       "-L", "10",
@@ -57,6 +57,6 @@ Config {
     Run Date "%a %b %d %H:%M" "date" 5
   ],
   alignSep = "}{",
-  template = "%StdinReader% }{ <fc=#B48EAD>%spotify%</fc> <fc=#4f6b69>|</fc> %cpu% <fc=#4f6b69>|</fc> %memory% <fc=#4f6b69>|</fc> %default:Master% <fc=#4f6b69>|</fc> %battery% <fc=#4f6b69>|</fc> %kbd% <fc=#4f6b69>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
+  template = "%StdinReader% }{ <fc=#B48EAD>%music%</fc> <fc=#4f6b69>|</fc> %cpu% <fc=#4f6b69>|</fc> %memory% <fc=#4f6b69>|</fc> %default:Master% <fc=#4f6b69>|</fc> %battery% <fc=#4f6b69>|</fc> %kbd% <fc=#4f6b69>|</fc> <action=`gsimplecal` button=1><fc=#88C0D0>%date%</fc></action> ",
   lowerOnStart = True
 }
