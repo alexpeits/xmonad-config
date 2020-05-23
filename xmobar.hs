@@ -1,5 +1,6 @@
 Config {
-  font = "xft:Iosevka Term:size=11.5",
+  -- font = "xft:Iosevka Term:size=11.5",
+  font = "xft:Source Code Pro Medium:size=11",
   bgColor = "#272727",
   fgColor = "#afc7c5",
   border = FullB,

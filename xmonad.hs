@@ -1,43 +1,62 @@
+{-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# OPTIONS_GHC -Wunused-imports #-}
-import           Control.Monad               (unless)
-import           Data.Maybe                  (isNothing)
-import           System.Directory            (findExecutable)
-import           System.IO                   (hPutStrLn)
+import           Control.Monad                       (unless)
+import           Data.Maybe                          (isNothing)
+import           System.Directory                    (findExecutable)
+import           System.IO                           (hPutStrLn)
 
-import           Network.HostName            (getHostName)
+import           Network.HostName                    (getHostName)
 
 import           XMonad
 
-import qualified XMonad.Hooks.DynamicLog     as DL
-import           XMonad.Hooks.EwmhDesktops   (ewmh)
-import           XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
-import           XMonad.Hooks.ManageDocks    (manageDocks, docksEventHook)
-import           XMonad.Hooks.ManageHelpers  (composeOne, isDialog, (-?>), doCenterFloat, transience)
+import qualified XMonad.Hooks.DynamicLog             as DL
+import           XMonad.Hooks.EwmhDesktops           (ewmh)
+import           XMonad.Hooks.InsertPosition         (insertPosition, Position(..), Focus(..))
+import           XMonad.Hooks.ManageDocks            (manageDocks, docksEventHook)
+import           XMonad.Hooks.ManageHelpers          (composeOne, isDialog, (-?>), doCenterFloat, transience)
 
-import           XMonad.Layout.Fullscreen    (fullscreenSupport)
-import           XMonad.Layout.NoBorders     (smartBorders)
+import           XMonad.Layout.Fullscreen            (fullscreenSupport)
+import           XMonad.Layout.NoBorders             (smartBorders)
 
-import           XMonad.Util.NamedScratchpad (namedScratchpadManageHook)
-import           XMonad.Util.Run             (spawnPipe)
+import           XMonad.Util.Loggers.NamedScratchpad as NS.Log
+import           XMonad.Util.NamedScratchpad         as NS
+import           XMonad.Util.Run                     (spawnPipe)
 
-import qualified XMonad.My.Config            as My.Cfg
-import qualified XMonad.My.Keys              as My.Keys
-import qualified XMonad.My.Layouts           as My.Layouts
-import qualified XMonad.My.Scratchpad        as My.Scratchpad
-import qualified XMonad.My.Windows           as My.Windows
-import qualified XMonad.My.Workspaces        as My.Workspaces
+import qualified XMonad.My.Config                    as My.Cfg
+import qualified XMonad.My.Keys                      as My.Keys
+import qualified XMonad.My.Layouts                   as My.Layouts
+import qualified XMonad.My.Scratchpad                as My.Scratchpad
+import qualified XMonad.My.Windows                   as My.Windows
+import qualified XMonad.My.Workspaces                as My.Workspaces
 
-xmobarLogHook process = DL.dynamicLogWithPP $ DL.xmobarPP
-  { DL.ppOutput  = hPutStrLn process . (" " ++)
-  , DL.ppTitle   = DL.xmobarColor "#D08770" "" . DL.shorten 60
-  , DL.ppCurrent = DL.xmobarColor "#A3BE8C" "" . DL.wrap "[" "]"
-  , DL.ppVisible = DL.xmobarColor "#88C0D0" "" . DL.wrap "(" ")"
-  , DL.ppHidden  = \ws -> if ws == "NSP" then "" else ws
-  , DL.ppSep     = DL.xmobarColor "#5e7591" "" " | "
-  , DL.ppLayout  = DL.xmobarColor "#5e7591" ""
-  , DL.ppUrgent  = DL.xmobarColor "red" "yellow"
-  }
+xmobarLogHook process
+  = DL.dynamicLogWithPP
+  $ NS.namedScratchpadFilterOutWorkspacePP
+  $ DL.xmobarPP
+      { DL.ppOutput  = hPutStrLn process . (" " ++)
+      , DL.ppTitle   = DL.xmobarColor "#D08770" "" . DL.shorten 60
+      , DL.ppCurrent = DL.xmobarColor "#A3BE8C" "" . DL.wrap "[" "]"
+      , DL.ppVisible = DL.xmobarColor "#88C0D0" "" . DL.wrap "(" ")"
+      , DL.ppSep     = DL.xmobarColor "#5e7591" "" " | "
+      , DL.ppLayout  = DL.xmobarColor "#5e7591" ""
+      , DL.ppUrgent  = DL.xmobarColor "red" "yellow"
+      , DL.ppOrder
+          = \case
+              [ws, _layout, win] -> [ws, win]
+              [ws, _layout, win, nsp] -> [ws, nsp, win]
+              other -> other
+      , DL.ppExtras  = [ nspLog ]
+      }
+  where
+    nspLog =
+      let
+        active = DL.xmobarColor "#A3BE8C" ""
+        inactive = DL.xmobarColor "#5e7591" ""
+      in
+        fmap DL.trim
+          <$> NS.Log.nspActive My.Scratchpad.scratchpadNames active inactive
+
 
 xmessage :: [String] -> IO ()
 xmessage msg = do
@@ -86,9 +105,11 @@ main = do
           , transience -- Move transient windows to their parent.
           , pure True -?> insertPosition Below Newer
           ]
-        <+> namedScratchpadManageHook My.Scratchpad.scratchpads
-    -- , startupHook        = spawn "xfce4-panel --restart"
+        <+> NS.namedScratchpadManageHook My.Scratchpad.scratchpads
+    , startupHook        = NS.Log.nspTrackStartup My.Scratchpad.scratchpads
     , layoutHook         = smartBorders (My.Layouts.layout cfg)
-    , handleEventHook    = handleEventHook def <+> docksEventHook
+    , handleEventHook    = handleEventHook def
+                         <+> docksEventHook
+                         <+> NS.Log.nspTrackHook My.Scratchpad.scratchpads
     , logHook            = xmobarLogHook xmobarProc
     }
