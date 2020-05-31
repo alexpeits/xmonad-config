@@ -35,7 +35,7 @@ botRightRR w h = W.RationalRect (1 - w) (1 - h) w h
 botLeftRR  w h = W.RationalRect 0 (1 - h) w h
 dropDownRR w h = W.RationalRect 0 myTopMargin w h
 
-largeRectM  = customFloating $ middleRR 0.8 0.8
+largeRectM  = customFloating $ middleRR 0.85 0.85
 medRectM    = customFloating $ middleRR 0.65 0.75
 medRectBR   = customFloating $ botRightRR 0.45 0.5
 smallRectM  = customFloating $ middleRR 0.45 0.55

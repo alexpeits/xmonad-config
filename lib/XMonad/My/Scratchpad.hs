@@ -37,8 +37,6 @@ scratchpads' =
             , "(elfeed)"
             , "(persp-switch \"config\")"
             , "(find-file \"~/.emacs.d/configuration.org\")"
-            , "(persp-switch \"notes\")"
-            , "(bookmark-jump \"shared-notes\")"
             , "(persp-switch \"main\")"
             , "(deft)"
             , "(persp-rename \"roam\")"
@@ -47,7 +45,14 @@ scratchpads' =
             ]
         )
         (title =? "emacs-sp")
-        W.medRectM
+        W.largeRectM
+    )
+  , ( "ο"
+    , NS.NS
+        "obsidian"
+        "obsidian"
+        (className =? "obsidian")
+        W.largeRectM
     )
   , ( ""
     , NS.NS
