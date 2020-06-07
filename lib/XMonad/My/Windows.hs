@@ -74,17 +74,20 @@ cycleCorner w = do
         sh = fromIntegral $ rect_height scrRect
 
         bw = 2 * border
+        tAbs (x, y) = (abs x, abs y)
 
-        topLeft  = (0, 0)
-        topRight = (clampW $ sw - ww - bw, 0)
-        botLeft  = (0, clampH $ sh - wh - bw)
-        botRight = (clampW $ sw - ww - bw, clampH $ sh - wh - bw)
+        topLeft  = tAbs $ (0, 0)
+        topRight = tAbs $ (clampW $ sw - ww - bw, 0)
+        botLeft  = tAbs $ (0, clampH $ sh - wh - bw)
+        botRight = tAbs $ (clampW $ sw - ww - bw, clampH $ sh - wh - bw)
+        center   = tAbs $ (clampW $ (sw - ww - bw) `div` 2, clampH $ (sh - wh - bw) `div` 2)
 
         (newX, newY)
           = if
           | (wx, wy) == botRight -> botLeft
           | (wx, wy) == botLeft  -> topLeft
           | (wx, wy) == topLeft  -> topRight
+          | (wx, wy) == topRight -> center
           | otherwise            -> botRight
 
       io $ moveWindow d w newX newY
