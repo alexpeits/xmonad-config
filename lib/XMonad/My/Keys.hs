@@ -68,10 +68,9 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- scratchpads
   , ((0, xK_F12), Scratch.getScratch "terminal-dropdown")
   , ((modMask, xK_F12), Scratch.getScratch "terminal")
-  , ((modMask, xK_F8), Scratch.getScratch "emacs")
   , ((modMask .|. shiftMask, xK_b), Scratch.getScratch "nautilus")
   , ((modMask .|. shiftMask, xK_d), Scratch.getScratch "firefox")
-  , ((modMask .|. shiftMask, xK_n), Scratch.getScratch "obsidian")
+  , ((modMask .|. shiftMask, xK_n), Scratch.getScratch "emacs")
 
   -- toggle xmobar
   , ((modMask .|. shiftMask, xK_f), sendMessage ToggleStruts)
