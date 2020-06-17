@@ -20,14 +20,14 @@ scratchpadNames = map fst scratchpads'
 
 scratchpads' :: [(String, NS.NamedScratchpad)]
 scratchpads' =
-  [ ( "φ"
+  [ ( "f"
     , NS.NS
         "firefox"
         "firefox --new-instance --class firefox-sp"
         (className =? "firefox-sp")
         W.medRectBR
     )
-  , ( "ε"
+  , ( "e"
     , NS.NS
         "emacs"
         ( unwords
@@ -49,13 +49,6 @@ scratchpads' =
         (title =? "emacs-sp")
         W.largeRectM
     )
-  , ( "ο"
-    , NS.NS
-        "obsidian"
-        "obsidian"
-        (className =? "obsidian")
-        W.largeRectM
-    )
   , ( ""
     , NS.NS
         "terminal-dropdown"
@@ -75,6 +68,13 @@ scratchpads' =
        "nautilus"
        "nautilus --new-window --class=nautilus-sp"
        (className =? "nautilus-sp")
+       W.medRectM
+    )
+  , ( ""
+    , NS.NS
+       "pavucontrol"
+       "pavucontrol --class=pavucontrol-sp"
+       (className =? "pavucontrol-sp")
        W.medRectM
     )
   ]

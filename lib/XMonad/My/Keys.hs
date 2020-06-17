@@ -66,11 +66,12 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask, xK_Print), Util.getScreenshot)
 
   -- scratchpads
+  , ((modMask .|. shiftMask, xK_n), Scratch.getScratch "emacs")
+  , ((modMask .|. shiftMask, xK_d), Scratch.getScratch "firefox")
   , ((0, xK_F12), Scratch.getScratch "terminal-dropdown")
   , ((modMask, xK_F12), Scratch.getScratch "terminal")
   , ((modMask .|. shiftMask, xK_b), Scratch.getScratch "nautilus")
-  , ((modMask .|. shiftMask, xK_d), Scratch.getScratch "firefox")
-  , ((modMask .|. shiftMask, xK_n), Scratch.getScratch "emacs")
+  , ((modMask .|. shiftMask, xK_a), Scratch.getScratch "pavucontrol")
 
   -- toggle xmobar
   , ((modMask .|. shiftMask, xK_f), sendMessage ToggleStruts)
@@ -107,6 +108,7 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((0, xF86XK_AudioMute), spawn $ volumeToggle +++ volumeShow)
   , ((0, xF86XK_AudioLowerVolume), spawn $ volumeUnmute +++ volumeDown +++ volumeShow)
   , ((0, xF86XK_AudioRaiseVolume), spawn $ volumeUnmute +++ volumeUp +++ volumeShow)
+  , ((0, xF86XK_AudioMicMute), spawn "amixer -q set Capture toggle")
   , ((0, xF86XK_AudioPrev), spawn playerPrevious)
   , ((0, xF86XK_AudioNext), spawn playerNext)
   , ((0, xF86XK_AudioPlay), spawn playerPlayPause)
@@ -136,10 +138,10 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   -- TODO
   if hasMediaKeys
 
-    then [
-           ((modMask .|. controlMask, xK_F2), spawn volumeDown)
-         , ((modMask .|. controlMask, xK_F4), spawn volumeUp)
-         , ((0, xF86XK_AudioMicMute), spawn "amixer -q set Capture toggle")
+    then [ ((modMask .|. controlMask, xK_F2), spawn $ volumeDown +++ volumeShow)
+         , ((modMask .|. controlMask, xK_F3), spawn $ volumeToggle +++ volumeShow)
+         , ((modMask .|. controlMask, xK_F4), spawn $ volumeUp +++ volumeShow)
+         , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Capture toggle")
          , ((modMask, xK_F2), spawn playerPrevious)
          , ((modMask, xK_F3), spawn playerPlayPause)
          , ((modMask, xK_F4), spawn playerNext)
@@ -157,8 +159,8 @@ getKeys cfg x = M.union (M.fromList (customKeys cfg x)) (X.keys def x)
 
 volumeToggle = "amixer set Master toggle"
 volumeUnmute = "amixer set Master on"
-volumeDown = "amixer -q set Master 3%- && ~/bin/show-volume.sh"
-volumeUp = "amixer -q set Master 3%+ && ~/bin/show-volume.sh"
+volumeDown = "amixer -q set Master 3%-"
+volumeUp = "amixer -q set Master 3%+"
 volumeShow = "~/bin/show-volume.sh"
 
 playerctl = "playerctl -p spotify,vlc "
