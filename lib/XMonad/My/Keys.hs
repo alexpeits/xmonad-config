@@ -141,7 +141,7 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
     then [ ((modMask .|. controlMask, xK_F2), spawn $ volumeDown +++ volumeShow)
          , ((modMask .|. controlMask, xK_F3), spawn $ volumeToggle +++ volumeShow)
          , ((modMask .|. controlMask, xK_F4), spawn $ volumeUp +++ volumeShow)
-         , ((modMask .|. controlMask, xK_F4), spawn "amixer -q set Capture toggle")
+         , ((modMask .|. controlMask, xK_F5), spawn "amixer -q set Capture toggle")
          , ((modMask, xK_F2), spawn playerPrevious)
          , ((modMask, xK_F3), spawn playerPlayPause)
          , ((modMask, xK_F4), spawn playerNext)
