@@ -114,8 +114,10 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((0, xF86XK_AudioPlay), spawn playerPlayPause)
   , ((0, xF86XK_AudioStop), spawn playerStop)
 
-  -- temporary
   , ((modMask, xK_equal), spawn "PATH=~/bin:$PATH ~/bin/contrall.sh")
+  , ((modMask .|. shiftMask, xK_equal), spawn "~/bin/gnome-terminal-profile-switch.sh")
+
+  -- temporary
   , ((mod1Mask, xK_F11), spawn "~/bin/screen-layout.sh --auto")
   , ((mod1Mask, xK_F12), spawn "systemctl --user restart keyboard")
   ]
