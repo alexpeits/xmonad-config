@@ -42,7 +42,7 @@ scratchpads' =
             , "(outline-show-all)"
             , "(org-roam)"
             , "(persp-rename \"roam\")"
-            , "(unless (server-running-p) (server-mode))"
+            , "(unless server-mode (server-mode))"
             , ")'"
             ]
         )
