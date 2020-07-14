@@ -77,9 +77,9 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((modMask .|. shiftMask, xK_f), sendMessage ToggleStruts)
 
   -- brightness up
-  , ((0, xF86XK_MonBrightnessUp), spawn "brightnessctl set 5+")
+  , ((0, xF86XK_MonBrightnessUp), spawn $ brightnessUp +++ brightnessShow)
   -- brightness down
-  , ((0, xF86XK_MonBrightnessDown), spawn "brightnessctl set 5-")
+  , ((0, xF86XK_MonBrightnessDown), spawn $ brightnessDown +++ brightnessShow)
 
   -- reflect horizontally
   , ((modMask , xK_m), sendMessage $ MultiToggle.Toggle Reflect.REFLECTX)
@@ -170,6 +170,10 @@ playerPlayPause = playerctl <> "play-pause"
 playerStop = playerctl <> "stop"
 playerPrevious = playerctl <> "previous"
 playerNext = playerctl <> "next"
+
+brightnessDown = "brightnessctl set 7-"
+brightnessUp = "brightnessctl set 7+"
+brightnessShow = "~/bin/show-brightness.sh"
 
 (+++) :: String -> String -> String
 x +++ y = x ++ " && " ++ y

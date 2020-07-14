@@ -49,10 +49,10 @@ layout cfg
       $ tiled
       $ StackTile.StackTile 2 (3/100) 0.7
 
-    spiralRight
+    spiral
       = named "spiral"
       $ tiled
-      $ Dwindle.Dwindle Dwindle.L Dwindle.CCW 2.75 1.07
+      $ Dwindle.Dwindle Dwindle.R Dwindle.CW 1.0 1.07
 
     tabbed
       = named "tab"
