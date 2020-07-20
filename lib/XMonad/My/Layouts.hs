@@ -37,7 +37,7 @@ layout cfg
     tall
       = named "tall"
       $ tiled
-      $ ResizableTile.ResizableTall 1 (3/100) 0.5 []
+      $ ResizableTile.ResizableTall 1 0.02 0.5 []
 
     focus
       = named "focus"
@@ -47,7 +47,7 @@ layout cfg
     stackTile
       = named "stack"
       $ tiled
-      $ StackTile.StackTile 2 (3/100) 0.7
+      $ StackTile.StackTile 2 0.02 0.7
 
     spiral
       = named "spiral"
@@ -69,7 +69,7 @@ layout cfg
               }
 
     baseLeft
-      = ResizableTile.ResizableTall 1 (3/100) 0.75 []
+      = ResizableTile.ResizableTall 1 0.02 0.75 []
 
     baseRight
       = Reflect.reflectHoriz baseLeft
