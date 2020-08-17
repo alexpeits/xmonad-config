@@ -159,8 +159,10 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
 
 getKeys cfg x = M.union (M.fromList (customKeys cfg x)) (X.keys def x)
 
-volumeToggle = "amixer set Master toggle"
-volumeUnmute = "amixer set Master on"
+-- volumeToggle = "amixer set Master toggle"
+volumeToggle = "pactl set-sink-mute 0 toggle"
+-- volumeUnmute = "amixer set Master on"
+volumeUnmute = "pactl set-sink-mute 0 off"
 volumeDown = "amixer -q set Master 3%-"
 volumeUp = "amixer -q set Master 3%+"
 volumeShow = "~/bin/show-volume.sh"
