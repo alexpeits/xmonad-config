@@ -6,7 +6,7 @@ Config {
   border = FullB,
   borderWidth = 2,
   borderColor = "#272727",
-  position = TopSize L 95 25,
+  position = TopSize L 93 25,
   commands = [
     Run StdinReader,
     Run Com "bash" ["-c", "~/bin/song-info.sh spotify,vlc"] "music" 10,

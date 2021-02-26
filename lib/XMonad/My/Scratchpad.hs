@@ -72,6 +72,13 @@ scratchpads' =
     )
   , ( ""
     , NS.NS
+       "bitwarden"
+       "bitwarden"
+       (className =? "Bitwarden")
+       W.medRectM
+    )
+  , ( ""
+    , NS.NS
        "pavucontrol"
        "pavucontrol --class=pavucontrol-sp"
        (className =? "pavucontrol-sp")

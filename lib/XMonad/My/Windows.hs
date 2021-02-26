@@ -21,6 +21,7 @@ moveWindows _wsp
       , className =? "Indicator.py"     --> doFloatAt 0.43 0.43
       , className =? "Zenity"           --> doFloatAt 0.43 0.43
       , className =? "Gcolor3"          --> doFloat
+      , className =? "Bitwarden"        --> medRectM
       , className =? "stalonetray"      --> doIgnore
       , className =? "Xfce4-notifyd"    --> doIgnore
       ]

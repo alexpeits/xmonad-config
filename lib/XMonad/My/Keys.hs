@@ -71,6 +71,7 @@ customKeys cfg@Cfg.Config{..} conf@XConfig{modMask = modMask} =
   , ((0, xK_F12), Scratch.getScratch "terminal-dropdown")
   , ((modMask, xK_F12), Scratch.getScratch "terminal")
   , ((modMask .|. shiftMask, xK_b), Scratch.getScratch "nautilus")
+  , ((modMask .|. shiftMask, xK_w), Scratch.getScratch "bitwarden")
   , ((modMask .|. shiftMask, xK_a), Scratch.getScratch "pavucontrol")
 
   -- toggle xmobar
@@ -167,7 +168,8 @@ volumeDown = "amixer -q set Master 3%-"
 volumeUp = "amixer -q set Master 3%+"
 volumeShow = "~/bin/show-volume.sh"
 
-playerctl = "playerctl -p spotify,vlc "
+-- playerctl = "playerctl -p spotify,vlc "
+playerctl = "playerctl "
 playerPlayPause = playerctl <> "play-pause"
 playerStop = playerctl <> "stop"
 playerPrevious = playerctl <> "previous"
