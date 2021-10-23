@@ -40,9 +40,7 @@ scratchpads' =
             , "(persp-switch \"main\")"
             , "(find-file (expand-file-name \"home.org\" my/org-directory))"
             , "(outline-show-all)"
-            , "(org-roam)"
             , "(persp-rename \"roam\")"
-            , "(unless server-mode (server-mode))"
             , ")'"
             ]
         )
