@@ -7,7 +7,6 @@ module XMonad.My.Layouts where
 import           GHC.Word                         (Word64)
 
 import           XMonad
-import           XMonad.Config.Prime              (LayoutClass(..))
 
 import           XMonad.Hooks.ManageDocks         (avoidStruts)
 

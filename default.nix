@@ -1,8 +1,15 @@
-{ pkgs ? import ./nix/nixpkgs.nix {} }:
+{ pkgs ? null }:
 
 let
 
-  ghcWithPackages = pkgs.haskellPackages.ghcWithPackages (
+  sources = import ./nix/sources.nix;
+  nixpkgs =
+    if builtins.typeOf pkgs == "set" then
+      pkgs
+    else
+      import sources.nixpkgs-unstable { };
+
+  ghcWithPackages = nixpkgs.haskellPackages.ghcWithPackages (
     self:
       with self; [
         xmonad
@@ -12,17 +19,17 @@ let
       ]
   );
 
-  shell = pkgs.mkShell {
+  shell = nixpkgs.mkShell {
     shellHook = ''
       alias ghcid-orig="$(which ghcid)"
       alias ghcid="ghcid -a --command='ghci -i. -ilib/'"
     '';
-    buildInputs = [ ghcWithPackages pkgs.haskellPackages.ghcid pkgs.entr ];
+    buildInputs = [ ghcWithPackages nixpkgs.haskellPackages.ghcid nixpkgs.entr ];
   };
 
   # testing that without -fforce-recomp for now
-  script = pkgs.writeScriptBin "xmonad-build" ''
-    #!${pkgs.bash}/bin/bash
+  script = nixpkgs.writeScriptBin "xmonad-build" ''
+    #!${nixpkgs.bash}/bin/bash
 
     ${ghcWithPackages}/bin/ghc \
        --make xmonad.hs -i. -ilib \
@@ -34,5 +41,5 @@ in
   ghc = ghcWithPackages;
   shell = shell;
   script = script;
-  xmonad = pkgs.haskellPackages.xmonad;
+  xmonad = nixpkgs.haskellPackages.xmonad;
 }
