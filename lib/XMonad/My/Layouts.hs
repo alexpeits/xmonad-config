@@ -24,6 +24,7 @@ import qualified XMonad.Layout.Reflect            as Reflect
 import qualified XMonad.Layout.ResizableTile      as ResizableTile
 import qualified XMonad.Layout.StackTile          as StackTile
 import qualified XMonad.Layout.Tabbed             as Tabbed
+import qualified XMonad.Layout.ThreeColumns       as ThreeColumns
 import qualified XMonad.Layout.ToggleLayouts      as ToggleLayouts
 
 import qualified XMonad.My.Config                 as Cfg
@@ -31,7 +32,7 @@ import qualified XMonad.My.Config                 as Cfg
 inactiveColor = "#002b36"
 
 layout cfg
-  = avoidStruts $ tall ||| focus ||| tabbed
+  = avoidStruts $ tall ||| threeColumns ||| tabbed
   where
     tall
       = named "tall"
@@ -66,6 +67,11 @@ layout cfg
               , Tabbed.fontName            = "xft:Monospace:size=8"
               , Tabbed.decoHeight          = 18
               }
+
+    threeColumns
+      = named "3col"
+      $ tiled
+      $ ThreeColumns.ThreeCol 1 (3/100) (1/3)
 
     baseLeft
       = ResizableTile.ResizableTall 1 0.02 0.75 []
