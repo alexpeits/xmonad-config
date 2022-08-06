@@ -8,13 +8,14 @@ import           System.IO                           (hPutStrLn)
 
 import           Network.HostName                    (getHostName)
 
-import           XMonad
+import           XMonad                              hiding (xmessage)
 
 import qualified XMonad.Hooks.DynamicLog             as DL
 import           XMonad.Hooks.EwmhDesktops           (ewmh)
 import           XMonad.Hooks.InsertPosition         (insertPosition, Position(..), Focus(..))
-import           XMonad.Hooks.ManageDocks            (manageDocks, docksEventHook)
+import           XMonad.Hooks.ManageDocks            (manageDocks, docks)
 import           XMonad.Hooks.ManageHelpers          (composeOne, isDialog, (-?>), doCenterFloat, transience)
+import           XMonad.Hooks.StatusBar.PP           (filterOutWsPP)
 
 import           XMonad.Layout.Fullscreen            (fullscreenSupport)
 import           XMonad.Layout.NoBorders             (smartBorders)
@@ -32,7 +33,7 @@ import qualified XMonad.My.Workspaces                as My.Workspaces
 
 xmobarLogHook process
   = DL.dynamicLogWithPP
-  $ NS.namedScratchpadFilterOutWorkspacePP
+  $ filterOutWsPP ["NSP"]
   $ DL.xmobarPP
       { DL.ppOutput  = hPutStrLn process . (" " ++)
       , DL.ppTitle   = DL.xmobarColor "#D08770" "" . DL.shorten 60
@@ -86,7 +87,7 @@ main = do
 
   xmobarProc <- spawnPipe $ "xmobar " ++ xmobarConf
 
-  xmonad $ fullscreenSupport $ ewmh $ def
+  xmonad $ fullscreenSupport $ docks $ ewmh $ def
     { terminal           = My.Cfg.terminal cfg
     , focusFollowsMouse  = False
     , clickJustFocuses   = False
@@ -109,7 +110,6 @@ main = do
     , startupHook        = NS.Log.nspTrackStartup My.Scratchpad.scratchpads
     , layoutHook         = smartBorders (My.Layouts.layout cfg)
     , handleEventHook    = handleEventHook def
-                         <+> docksEventHook
                          <+> NS.Log.nspTrackHook My.Scratchpad.scratchpads
     , logHook            = xmobarLogHook xmobarProc
     }
