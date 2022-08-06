@@ -1,13 +1,8 @@
-ghcid:
-	nix-shell -A shell --run 'ghcid -a --command="ghci -i. -ilib/"'
+.PHONY: test
 
-watch:
-	nix-shell -A shell --run 'find ~/.xmonad/ -name "*.hs" | entr -c -d xmonad --recompile'
+ORMOLU_ARGS=-o -XTypeApplications -o -XInstanceSigs -o -XPatternSynonyms
 
-clean:
-	find . -name '*.hi' -exec rm {} \;
-	find . -name '*.o' -exec rm {} \;
-	rm -f ./xmonad-x86_64-linux
+format:
+	ormolu ${ORMOLU_ARGS} -i $$(find lib/ -name '*.hs')
+	ormolu ${ORMOLU_ARGS} -i xmonad.hs
 
-recompile: clean
-	xmonad --recompile
